@@ -1,0 +1,714 @@
+/* ============================================
+   Home — Dashboard
+   Premium SaaS design, DS-token-driven.
+   All sections except Hero use DS primitives.
+   ============================================ */
+
+.dashboard {
+  padding-top: var(--ds-space-8);
+  padding-bottom: var(--ds-space-8);
+  background: var(--color-canvas);
+}
+
+/* ══════════════════════════════════════════
+   Header
+══════════════════════════════════════════ */
+.dash-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-5);
+  margin-bottom: var(--ds-space-7);
+  flex-wrap: wrap;
+}
+
+.dash-head-copy { display: flex; flex-direction: column; gap: var(--ds-space-1); }
+
+.dash-title {
+  font-family: var(--ds-font-sans);
+  font-weight: var(--ds-weight-semibold);
+  font-size: 16px;
+  letter-spacing: -0.15px;
+  color: var(--color-accent-text);
+  line-height: 1.3;
+}
+
+.dash-subtitle {
+  font-family: var(--ds-font-sans);
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: var(--ds-weight-regular);
+  line-height: 1.4;
+}
+
+/* "Start new interview" override — DS secondary base handles the rest */
+.btn-new-interview { flex-shrink: 0; }
+
+/* ══════════════════════════════════════════
+   DS Primitives — Phase 2
+   Button, Section card, Section label, Badge.
+   All values are DS tokens unless noted.
+══════════════════════════════════════════ */
+
+/* ── Button base ── */
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  padding: 0 var(--ds-space-4);
+  height: 36px;
+  border-radius: var(--ds-radius-sm);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  font-weight: var(--ds-weight-medium);
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background var(--ds-duration-base) var(--ds-ease-out),
+              color      var(--ds-duration-base) var(--ds-ease-out),
+              border-color var(--ds-duration-base) var(--ds-ease-out);
+}
+
+/* Primary — filled accent */
+.ds-btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+.ds-btn-primary:hover {
+  background: var(--color-accent-hover, #4840a8);
+  border-color: var(--color-accent-hover, #4840a8);
+}
+
+/* Secondary — outline */
+.ds-btn-secondary {
+  background: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.ds-btn-secondary:hover {
+  background: var(--color-accent-subtle);
+}
+
+/* Ghost — text only */
+.ds-btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-color: transparent;
+}
+.ds-btn-ghost:hover {
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+/* ── Section card ── */
+.ds-section-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--ds-radius-md);
+  padding: var(--ds-space-6);
+  margin-bottom: var(--ds-space-6);
+}
+
+/* ── Section label ── */
+.ds-section-label {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-semibold);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--ds-space-4);
+}
+
+/* ── Badge ── */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--ds-space-2);
+  border-radius: var(--ds-radius-pill);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-medium);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* Badge colour variants */
+.ds-badge--technical  { background: #e8e6ff; color: #4840a8; }
+.ds-badge--behavioral { background: #f0e8ff; color: #6b35c8; }
+.ds-badge--hr         { background: #e6f5ee; color: #1e7e4a; }
+.ds-badge--mixed      { background: #f5f0ff; color: #7c5cbf; }
+
+/* ══════════════════════════════════════════
+   Hero
+══════════════════════════════════════════ */
+
+.dash-hero {
+  background: var(--color-accent-subtle);
+  border-radius: var(--ds-radius-md);
+  padding: 40px;
+  margin-bottom: var(--ds-space-8);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ds-space-8);
+}
+
+/* Content column: label → headline → evidence → meta */
+.dash-hero-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* "Next interview focus" context label — quiet, accent-tinted */
+.dash-hero-ctx {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-medium);
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0.7;
+  margin: 0 0 var(--ds-space-3);
+  line-height: 1;
+}
+
+/* Role name — main headline */
+.dash-hero-role {
+  font-family: var(--ds-font-sans);
+  font-size: 38px;
+  font-weight: var(--ds-weight-semibold);
+  line-height: var(--ds-lh-display);
+  letter-spacing: var(--ds-ls-display);
+  color: var(--color-accent-text);
+  margin: 0 0 var(--ds-space-2);
+}
+
+/* Recommendation type — secondary label */
+.dash-hero-focus {
+  font-family: var(--ds-font-sans);
+  font-size: 15px;
+  font-weight: var(--ds-weight-medium);
+  color: var(--color-accent);
+  opacity: 0.78;
+  margin: 0 0 var(--ds-space-3);
+  line-height: 1.4;
+}
+
+/* Evidence sentence — one line of context */
+.dash-hero-evidence {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  color: var(--color-accent-text);
+  opacity: 0.65;
+  line-height: 1.55;
+  margin: 0 0 var(--ds-space-2);
+}
+
+/* Meta row — last session details */
+.dash-hero-meta {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  color: var(--color-accent-text);
+  opacity: 0.5;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Action column: right in LTR (direction inheritance handles RTL) */
+.dash-hero-action {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);
+  min-width: 200px;
+  align-items: stretch;
+}
+
+/* Primary CTA override inside Hero — taller, bolder */
+.dash-hero .ds-btn-primary {
+  width: 100%;
+  min-height: 51px;
+  justify-content: center;
+  font-weight: var(--ds-weight-semibold);
+}
+
+/* "Change role" ghost link below CTA */
+.dash-hero-change {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-1);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-medium);
+  color: var(--color-accent);
+  opacity: 0.7;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--ds-space-1) 0;
+  text-align: center;
+  transition: opacity var(--ds-duration-base) var(--ds-ease-out);
+}
+.dash-hero-change:hover { opacity: 1; }
+
+/* Responsive: 640px — stack hero vertically, shrink role headline */
+@media (max-width: 640px) {
+  .dash-hero { flex-direction: column; align-items: stretch; gap: var(--ds-space-5); }
+  .dash-hero-action { width: 100%; }
+  /* Responsive scale: 28px keeps role name readable on mobile. */
+  .dash-hero-role { font-size: 28px; }
+}
+
+/* ══════════════════════════════════════════
+   Skill Focus
+══════════════════════════════════════════ */
+
+.dash-skill-focus {
+  margin-bottom: var(--ds-space-6);
+}
+
+/* 3 equal-width category cards */
+.sf-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ds-space-4);                        /* 16px */
+  margin-bottom: var(--ds-space-6);              /* 24px */
+}
+
+/* ── Individual category card ── */
+.sf-cat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);                        /* 12px */
+  padding: var(--ds-space-5);                    /* 20px */
+  border-radius: var(--ds-radius-sm);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  position: relative;
+}
+
+/* Recommended card — accent surface + stronger inline-start border.
+   Deviation: border rgba(83, 74, 183, 0.25) not a DS token — no
+   "border-on-accent-subtle" alias exists yet. Flagged for DS amendment. */
+.sf-cat-card.sf-cat-rec {
+  background: var(--color-accent-subtle);
+  border-color: rgba(83, 74, 183, 0.25);
+  border-inline-start-width: 3px;
+  padding-inline-start: 17px;                    /* compensate for thicker border */
+}
+
+/* Card header row: type badge (left) + trend label (right) */
+.sf-cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-2);
+}
+
+/* Score — main metric per card */
+.sf-cat-score {
+  font-family: var(--ds-font-sans);
+  font-size: 22px;
+  font-weight: var(--ds-weight-semibold);
+  line-height: 1;
+  color: var(--color-accent-text);
+  font-variant-numeric: tabular-nums;
+  margin: var(--ds-space-2) 0;
+}
+
+/* Recommended card score — larger to signal priority */
+.sf-cat-score-rec { font-size: 28px; }
+
+/* Stale/no-data score */
+.sf-score-stale {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-medium);
+  color: var(--color-text-muted);
+}
+
+/* Mini progress bar */
+.sf-cat-bar-track {
+  width: 100%;
+  height: 4px;
+  border-radius: var(--ds-radius-pill);
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+.sf-cat-bar-fill {
+  height: 100%;
+  border-radius: var(--ds-radius-pill);
+  transition: width var(--ds-duration-base) var(--ds-ease-out);
+}
+
+/* Bar fill colours — score performance buckets */
+.score-bar-b-1,.score-bar-b-2,.score-bar-b-3,.score-bar-b-4 { background: #e5534b; }
+.score-bar-b-5,.score-bar-b-6  { background: #c98a2e; }
+.score-bar-b-7,.score-bar-b-8  { background: var(--color-accent); }
+.score-bar-b-9,.score-bar-b-10 { background: #3a9d68; }
+
+/* Trend label */
+.sf-trend {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-medium);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sf-trend-improving { color: #3a9d68; }
+.sf-trend-declining { color: #c93c35; }
+.sf-trend-stable,
+.sf-trend-new,
+.sf-trend-stale,
+.sf-trend-none { color: var(--color-text-muted); }
+
+/* "★ Focus" label — top-end corner of recommended card */
+.sf-cat-rec-badge {
+  position: absolute;
+  top: var(--ds-space-2);
+  inset-inline-end: var(--ds-space-2);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--color-accent);
+  font-family: var(--ds-font-sans);
+  font-size: 10px;
+  font-weight: var(--ds-weight-semibold);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Coaching row ── */
+.sf-coaching-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-5);
+  padding-top: var(--ds-space-5);               /* 20px */
+  border-top: 1px solid var(--color-border);
+}
+
+/* Responsive: stack at 600px */
+@media (max-width: 600px) {
+  .sf-category-grid { grid-template-columns: 1fr; }
+  .sf-coaching-row  { flex-direction: column; align-items: flex-start; }
+  .sf-coaching-row .ds-btn { width: 100%; justify-content: center; }
+}
+
+.sf-coaching-reason {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  font-weight: var(--ds-weight-regular);
+  line-height: var(--ds-lh-body);
+  color: var(--color-accent-text);
+  opacity: 0.72;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════
+   Score trend
+══════════════════════════════════════════ */
+
+.dash-trend {
+  margin-bottom: var(--ds-space-6);
+}
+
+.trend-date-range {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--ds-space-3);
+  line-height: 1.4;
+}
+
+/* Empty state */
+.trend-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-5) 0;
+  text-align: center;
+}
+.trend-empty-icon { color: var(--color-border-strong); }
+.trend-empty-text {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 22ch;
+}
+
+/* SVG line chart */
+.trend-line-svg {
+  display: block;
+  width: 100%;
+}
+
+.trend-area {
+  fill: rgba(83, 74, 183, 0.08);
+}
+
+.trend-line {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.trend-dot {
+  fill: var(--color-accent);
+}
+
+.trend-score-label,
+.trend-label-text {
+  fill: var(--color-text-muted);
+  font-family: var(--ds-font-sans);
+  font-size: 11px;
+}
+
+/* Delta summary line below chart */
+.trend-insight {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-semibold);
+  margin: 0;
+  line-height: 1.4;
+}
+.trend-delta-up   { color: #3a9d68; }
+.trend-delta-down { color: #c93c35; }
+.trend-delta-flat { color: var(--color-text-muted); }
+
+/* ══════════════════════════════════════════
+   Recent Sessions
+══════════════════════════════════════════ */
+
+.dash-recent {
+  margin-bottom: var(--ds-space-6);
+}
+
+.recent-list {
+  list-style: none;
+  margin: var(--ds-space-3) 0 0;
+  padding: 0;
+}
+
+.recent-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.recent-row:last-child { border-bottom: none; padding-bottom: 0; }
+.recent-row:first-child { padding-top: 0; }
+
+.recent-main {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.recent-role-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.recent-role {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  font-weight: var(--ds-weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-detail {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.recent-score {
+  font-family: var(--ds-font-sans);
+  font-weight: var(--ds-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--ds-size-body);
+  padding: 3px var(--ds-space-3);
+  border-radius: var(--ds-radius-pill);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border: 1px solid rgba(83, 74, 183, 0.15);
+  flex-shrink: 0;
+  min-width: 44px;
+  text-align: center;
+}
+
+/* Deviation: score bucket palette not DS tokens — flagged for DS amendment */
+.score-b-1,.score-b-2,.score-b-3,.score-b-4 {
+  color: #c93c35;
+  border-color: rgba(229, 83, 75, 0.2);
+  background: #fff1f0;
+}
+.score-b-5,.score-b-6 {
+  color: #9a6200;
+  border-color: rgba(201, 138, 46, 0.2);
+  background: #fff8ec;
+}
+.score-b-7,.score-b-8 {
+  color: var(--color-accent);
+  border-color: rgba(83, 74, 183, 0.15);
+  background: var(--color-accent-subtle);
+}
+.score-b-9,.score-b-10 {
+  color: #1e7e4a;
+  border-color: rgba(58, 157, 104, 0.2);
+  background: #edfaf3;
+}
+
+/* Recent Sessions empty state — mirrors .trend-empty */
+.recent-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-5) 0;
+  text-align: center;
+}
+.recent-empty-icon { color: var(--color-border-strong); }
+.recent-empty-text {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 22ch;
+}
+
+/* ══════════════════════════════════════════
+   Practice by Role
+══════════════════════════════════════════ */
+
+.dash-roles {
+  margin-bottom: 0;
+}
+
+.dash-role-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-2);
+  margin-top: var(--ds-space-2);
+}
+
+.dash-role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  padding: var(--ds-space-2) var(--ds-space-3);
+  border-radius: var(--ds-radius-pill);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background var(--ds-duration-base) var(--ds-ease-out),
+              border-color var(--ds-duration-base) var(--ds-ease-out),
+              color var(--ds-duration-base) var(--ds-ease-out);
+}
+.dash-role-chip:hover {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* ══════════════════════════════════════════
+   First Run
+══════════════════════════════════════════ */
+
+.dash-firstrun {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ds-space-5);
+  background: var(--color-accent-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--ds-radius-md);
+  padding: var(--ds-space-8);
+  margin-bottom: var(--ds-space-6);
+}
+
+.dash-firstrun-title {
+  font-family: var(--ds-font-sans);
+  font-size: 22px;
+  font-weight: var(--ds-weight-semibold);
+  color: var(--color-accent-text);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.dash-firstrun-text {
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.firstrun-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);
+}
+
+.firstrun-step {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-size-body);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.firstrun-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: var(--ds-size-label);
+  font-weight: var(--ds-weight-semibold);
+  flex-shrink: 0;
+}

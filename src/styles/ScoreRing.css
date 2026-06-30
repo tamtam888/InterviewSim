@@ -1,0 +1,49 @@
+.score-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-ring-track {
+  stroke: var(--surface-2);
+}
+
+.score-ring-value {
+  transition: stroke-dashoffset 0.9s ease;
+}
+
+.ring-excellent .score-ring-value {
+  stroke: var(--green);
+}
+
+.ring-good .score-ring-value {
+  stroke: var(--violet-soft);
+}
+
+.ring-fair .score-ring-value {
+  stroke: var(--amber);
+}
+
+.ring-low .score-ring-value {
+  stroke: var(--red);
+}
+
+.score-ring-center {
+  position: absolute;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  direction: ltr;
+}
+
+.score-ring-number {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.score-ring-max {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}

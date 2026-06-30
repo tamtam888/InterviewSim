@@ -1,0 +1,525 @@
+/* ============================================
+   InterviewSim — friendly coaching identity
+   Lavender-white canvas, white cards with soft
+   lavender borders, one gentle purple accent.
+   Personal, warm, mentor-like. Never neon.
+   ============================================ */
+
+:root {
+  /* Lavender-white surfaces */
+  --bg: #f9f7ff;
+  --bg-elevated: #f0ebff;
+  --surface: #ffffff;
+  --surface-2: #f2eeff;
+  --surface-hover: #ebe4ff;
+
+  /* Soft lavender hairlines */
+  --border: rgba(92, 53, 212, 0.12);
+  --border-strong: rgba(92, 53, 212, 0.2);
+
+  /* Accents — one soft purple; the rest are quiet semantics.
+     (Legacy token names kept so every stylesheet re-themes.) */
+  --violet: #5c35d4;            /* soft purple — primary accent */
+  --violet-soft: #4b29a8;       /* deeper purple for text */
+  --violet-glow: rgba(92, 53, 212, 0.15);
+  --violet-dim: rgba(92, 53, 212, 0.09);
+  --green: #46a06e;             /* friendly green — success */
+  --green-dim: rgba(70, 160, 110, 0.1);
+  --amber: #c98a2e;             /* warm honey — caution */
+  --amber-dim: rgba(201, 138, 46, 0.1);
+  --red: #e05d4f;               /* warm coral — streak flame / low scores */
+  --red-dim: rgba(224, 93, 79, 0.1);
+  --blue: #5f7d99;              /* calm slate — quiet tertiary */
+  --blue-dim: rgba(95, 125, 153, 0.1);
+
+  /* Ink text — softly purple-tinted */
+  --text: #1e1a2e;
+  --text-secondary: #534e6e;
+  --text-muted: #8e88a8;
+
+  /* Fills */
+  --ink: #322c44;
+  --ink-hover: #423a58;
+  --on-ink: #f7f5fc;
+  --on-accent: #ffffff;
+
+  /* Spacing scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
+
+  /* Type scale */
+  --fs-xs: 0.8rem;
+  --fs-sm: 0.9rem;
+  --fs-base: 1rem;
+  --fs-md: 1.1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: clamp(1.55rem, 3.4vw, 2.1rem);
+  --fs-2xl: clamp(2.1rem, 5.4vw, 3.1rem);
+
+  /* Shape & motion — soft, friendly, never glowing */
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 24px;
+  --radius-btn: 999px;
+  --shadow-card: 0 1px 2px rgba(80, 50, 180, 0.06), 0 4px 16px rgba(80, 50, 180, 0.09);
+  --shadow-soft: 0 2px 8px rgba(80, 50, 180, 0.14);
+  --transition: 0.18s ease;
+
+  /* Type families — friendly rounded headings, script reserved for the logo */
+  --font-sans: "Heebo", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-display: "Nunito", "Heebo", "Segoe UI", system-ui, sans-serif;
+  --font-script: "Dancing Script", "Heebo", cursive;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+textarea,
+input {
+  font-family: inherit;
+}
+
+a {
+  color: var(--violet-soft);
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--violet);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-2);
+  border-radius: 6px;
+}
+
+/* ============ Shared utility classes ============ */
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--space-9);
+}
+
+/* Buttons — friendly pills, gentle purple primary */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-btn);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  transition: transform var(--transition), background var(--transition),
+    border-color var(--transition), color var(--transition);
+  border: 1px solid transparent;
+  min-height: 48px;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--violet);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-primary:hover {
+  background: var(--violet-soft);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: var(--surface);
+  border-color: var(--violet);
+  color: var(--violet-soft);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-lg {
+  padding: var(--space-4) var(--space-7);
+  font-size: var(--fs-md);
+  min-height: 56px;
+}
+
+/* Cards — welcoming rounded cards with subtle lavender borders */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  box-shadow: 0 1px 3px rgba(80,50,180,0.05), 0 4px 14px rgba(80,50,180,0.08);
+}
+
+/* Pills — quiet hairline labels */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+}
+
+.pill-green {
+  color: var(--green);
+  border-color: rgba(78, 125, 91, 0.4);
+  background: transparent;
+}
+
+/* Section headings — serif ink */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.1px;
+  font-size: var(--fs-xl);
+
+}
+
+/* Legacy headline classes — clay & sage ink (names kept) */
+.text-gradient {
+  color: var(--violet-soft);
+}
+
+.text-gradient-green {
+  color: var(--green);
+}
+
+/* Segmented control — paper tabs */
+.segmented {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  flex-wrap: wrap;
+}
+
+.segmented-option {
+  flex: 1;
+  min-width: 110px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  transition: background var(--transition), color var(--transition),
+    border-color var(--transition), box-shadow var(--transition);
+  min-height: 48px;
+}
+
+.segmented-option:hover {
+  color: var(--text);
+}
+
+.segmented-option.is-selected {
+  background: var(--surface);
+  border-color: rgba(124, 107, 184, 0.35);
+  color: var(--violet-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.segmented-option-desc {
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.segmented-option.is-selected .segmented-option-desc {
+  color: var(--text-secondary);
+}
+
+/* Subtle fade-in */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.4s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   InterviewSim Design System v2.0 — Frozen Token Layer
+   Scope: Dashboard (HomeScreen) only.
+   These tokens DO NOT override any existing app tokens.
+   All DS tokens use explicit namespacing to prevent collision.
+   Amendment C2 applied: --color-text-muted darkened to #6B6B7B
+     for WCAG AA compliance (≥ 4.5:1 on white).
+   Amendment C7 applied: --color-surface-active added.
+   Font decision: Heebo per bilingual/Hebrew readability ruling.
+   ============================================================ */
+
+:root {
+
+  /* ── Base Palette: Violet ────────────────────────────────── */
+  --ds-violet-900: #1A1550;
+  --ds-violet-800: #26215C;
+  --ds-violet-700: #3D3594;
+  --ds-violet-600: #534AB7;
+  --ds-violet-500: #6B62CC;
+  --ds-violet-400: #9189DC;
+  --ds-violet-300: #B8B2EB;
+  --ds-violet-200: #DDD4FF;
+  --ds-violet-100: #EEE9FF;
+  --ds-violet-50:  #F7F5FF;
+
+  /* ── Base Palette: Neutral ───────────────────────────────── */
+  --ds-neutral-900: #0F0F12;
+  --ds-neutral-800: #1C1C22;
+  --ds-neutral-700: #2E2E38;
+  --ds-neutral-600: #4A4A5C;
+  --ds-neutral-500: #6B6B7E;
+  --ds-neutral-400: #8A8A9C;
+  --ds-neutral-300: #B4B4C4;
+  --ds-neutral-200: #D8D8E4;
+  --ds-neutral-100: #EBEBF2;
+  --ds-neutral-50:  #F4F4F6;
+  --ds-neutral-25:  #F7F8FA;
+
+  /* ── Base Palette: Performance ───────────────────────────── */
+  --ds-green-700: #166534;
+  --ds-green-600: #1A7F4B;
+  --ds-green-50:  #E8F7EE;
+
+  --ds-amber-700: #92400E;
+  --ds-amber-600: #A05C10;
+  --ds-amber-50:  #FEF4E0;
+
+  --ds-red-700: #9B1C1C;
+  --ds-red-600: #B42318;
+  --ds-red-50:  #FEEAE9;
+
+  /* ── Semantic: Surface ───────────────────────────────────── */
+  --color-canvas:          #F7F8FA;   /* page background — dashboard only */
+  --color-surface:         #FFFFFF;   /* card background */
+  --color-surface-raised:  #F4F4F6;   /* hover state, nested items */
+  --color-surface-active:  #EBEBF2;   /* pressed state — Amendment C7 */
+  --color-surface-overlay: rgba(15, 15, 18, 0.40); /* modal scrim */
+
+  /* ── Semantic: Border ────────────────────────────────────── */
+  --color-border:          rgba(0, 0, 0, 0.07);  /* default card edge */
+  --color-border-strong:   rgba(0, 0, 0, 0.15);  /* inputs, active borders */
+
+  /* ── Semantic: Text ──────────────────────────────────────── */
+  --color-text-primary:    #0F0F12;   /* highest contrast */
+  --color-text-secondary:  #4A4A5C;   /* supporting content */
+  --color-text-muted:      #6B6B7B;   /* metadata, labels — WCAG AA compliant (≈4.7:1 on white) */
+  --color-text-inverse:    #FFFFFF;   /* on solid accent backgrounds */
+  --color-text-accent:     #534AB7;   /* links, interactive labels */
+
+  /* ── Semantic: Accent ────────────────────────────────────── */
+  --color-accent:          #534AB7;   /* primary actions, active states */
+  --color-accent-hover:    #3D3594;   /* accent hover */
+  --color-accent-subtle:   #DDD4FF;   /* hero surface (primary focus context), selection backgrounds */
+  --color-accent-text:     #26215C;   /* text on accent-subtle surfaces */
+
+  /* ── Semantic: Performance (score display only) ──────────── */
+  --color-perf-high-bg:    #E8F7EE;
+  --color-perf-high-text:  #166534;
+  --color-perf-mid-bg:     #FEF4E0;
+  --color-perf-mid-text:   #92400E;
+  --color-perf-low-bg:     #FEEAE9;
+  --color-perf-low-text:   #9B1C1C;
+
+  /* ── Typography ──────────────────────────────────────────── */
+  /* Font decision: Heebo chosen over Inter for Hebrew readability. */
+  --ds-font-sans: "Heebo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Three tiers — no other sizes permitted in dashboard components */
+  --ds-size-display: 28px;
+  --ds-lh-display:   1.15;
+  --ds-ls-display:   -0.4px;
+
+  --ds-size-body: 14px;
+  --ds-lh-body:   1.5;
+  --ds-ls-body:   0px;
+
+  --ds-size-label: 11px;
+  --ds-lh-label:   1.3;
+  --ds-ls-label:   0px;
+
+  /* Three weights — no others permitted */
+  --ds-weight-regular:  400;
+  --ds-weight-medium:   500;
+  --ds-weight-semibold: 600;
+
+  /* ── Spacing (4px base) ──────────────────────────────────── */
+  /* NOTE: --ds-space-* uses separate namespace from legacy --space-* */
+  --ds-space-1:  4px;
+  --ds-space-2:  8px;
+  --ds-space-3:  12px;
+  --ds-space-4:  16px;
+  --ds-space-5:  20px;
+  --ds-space-6:  24px;
+  --ds-space-7:  28px;   /* Amendment C1: added missing token */
+  --ds-space-8:  32px;
+  --ds-space-10: 40px;
+  --ds-space-12: 48px;
+  --ds-space-16: 64px;
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  /* NOTE: --ds-radius-* uses separate namespace from legacy --radius-* */
+  --ds-radius-xs:   4px;     /* badges, score pills, tags */
+  --ds-radius-sm:   8px;     /* buttons, inputs */
+  --ds-radius-md:   12px;    /* section cards, hero, modals */
+  --ds-radius-pill: 9999px;  /* filter chips, avatars */
+
+  /* ── Shadow / Elevation ──────────────────────────────────── */
+  --ds-shadow-none:   none;
+  --ds-shadow-button: 0 1px 4px rgba(0, 0, 0, 0.10);
+  --ds-shadow-float:  0 4px 16px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+  --ds-shadow-modal:  0 8px 40px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* ── Motion ──────────────────────────────────────────────── */
+  --ds-duration-instant: 100ms;
+  --ds-duration-fast:    150ms;
+  --ds-duration-base:    200ms;
+  --ds-duration-slow:    300ms;
+  --ds-duration-score:   500ms;  /* score reveal exception — result screen only */
+
+  /* Amendment C10: prefers-reduced-motion must set transitions to 0ms,
+     not 100ms. Applied in the media query below. */
+  --ds-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --ds-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ds-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  /* ease-linear is intentionally absent — it is not part of this system */
+}
+
+/* Amendment C10: correct prefers-reduced-motion behaviour.
+   All DS transitions are removed entirely (0ms), not merely reduced.
+   This is separate from the legacy animation block above. */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard *,
+  .dashboard *::before,
+  .dashboard *::after {
+    transition-duration: 0ms !important;
+    animation-duration:  0ms !important;
+  }
+}

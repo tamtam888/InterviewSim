@@ -1,0 +1,324 @@
+.progress-page {
+  max-width: 820px;
+}
+
+.progress-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  color: var(--text-secondary);
+}
+
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.progress-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-4);
+}
+
+.progress-stat > svg {
+  color: var(--violet-soft);
+}
+
+.progress-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-stat-label {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.progress-skills {
+  padding: var(--space-4);         /* 16px all sides — tighter than .card's 24px */
+  margin-bottom: var(--space-5);   /* 24px gap before category filter tabs */
+}
+
+/* Slightly stronger heading than the global ds-section-label (11px/600) */
+.progress-skills .ds-section-label {
+  font-size: var(--fs-xs);   /* 0.8rem ≈ 13px */
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+/* Skills grid — 2-col on desktop, 1-col on mobile */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+/* Prevent lone orphan: span full row, size + center to match siblings */
+.skills-grid > .skills-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  width: calc(50% - var(--space-2));
+  margin-inline: auto;
+}
+
+@media (max-width: 520px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .skills-grid > .skills-card:last-child:nth-child(odd) {
+    width: 100%;
+    margin-inline: 0;
+  }
+}
+
+/* Compact metric card — mirrors sf-cat-card design language */
+.skills-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised, var(--surface));
+  border: 1px solid var(--border);
+}
+
+/* Badge (left) + trend label (right) */
+.skills-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+/* Large score number */
+.skills-card-score {
+  font-family: var(--font-sans);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  margin: var(--space-1) 0;
+}
+
+.progress-session-list {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+}
+
+.progress-session-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.progress-session-row:last-child {
+  border-bottom: none;
+}
+
+.progress-session-level {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: end;
+}
+
+/* Cloud mode note */
+.progress-cloud-note {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Loading skeleton */
+.progress-loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-8) 0;
+}
+
+.progress-loading-dots {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--violet-soft);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.1); }
+}
+
+/* ── Session row toggle + detail panel ──────────────────────────────────── */
+
+.progress-session-main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.progress-session-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  margin-inline-start: auto;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.progress-session-toggle:hover {
+  color: var(--text-primary);
+  background: var(--surface-hover);
+}
+
+.progress-session-detail {
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.session-detail-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.session-detail-block-title {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.session-detail-text {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.session-detail-list {
+  margin: 0;
+  padding-inline-start: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.session-detail-list li {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.session-pertype-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.session-pertype-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+}
+
+.session-pertype-label {
+  color: var(--text-secondary);
+}
+
+.session-pertype-score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.session-detail-empty {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Category filter tabs ───────────────────────────────────────────────── */
+
+.prog-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.prog-filter-tab {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: var(--fs-sm);
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  line-height: 1.6;
+}
+
+.prog-filter-tab:hover {
+  color: var(--text-primary);
+  background: var(--surface-hover);
+}
+
+.prog-filter-tab--active {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* ── Per-category trend chart ───────────────────────── */
+
+.prog-trend-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.prog-trend-svg {
+  display: block;
+}
+
+.prog-trend-area {
+  fill: rgba(83, 74, 183, 0.08);
+}

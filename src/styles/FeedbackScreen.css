@@ -1,0 +1,211 @@
+.feedback {
+  max-width: 760px;
+}
+
+/* Source bar — AI badge is a prominent product feature */
+.feedback-source-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+.feedback-source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.badge-ai {
+  background: var(--violet-dim);
+  color: var(--violet-soft);
+  border: 1px solid rgba(109, 92, 180, 0.3);
+}
+
+.badge-local {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+}
+
+.feedback-question-ref {
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  max-width: 600px;
+}
+
+/* Top: score card + answer card */
+.feedback-top {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+/* Answer card — no speech bubble; plain structured card */
+.your-answer-card {
+  min-width: 0;
+  background: var(--bg-elevated);
+}
+
+.your-answer-text {
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+}
+
+/* Strengths + Improvements side by side */
+.feedback-si-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.feedback-block {
+  /* margin handled by grid/flex parents */
+}
+
+.block-strengths {
+  border-top: 3px solid var(--green);
+}
+
+.block-strengths .feedback-block-title {
+  color: var(--green);
+  border-bottom-color: rgba(70, 160, 110, 0.2);
+}
+
+.block-improvements {
+  border-top: 3px solid var(--amber);
+}
+
+.block-improvements .feedback-block-title {
+  color: var(--amber);
+  border-bottom-color: rgba(201, 138, 46, 0.2);
+}
+
+/* Coaching card: suggested answer + tip combined */
+.block-coaching {
+  border-top: 3px solid var(--violet);
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.coaching-block {
+  padding-bottom: var(--space-4);
+}
+
+.coaching-tip {
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-4);
+  padding-bottom: 0;
+}
+
+.block-coaching .feedback-block-title {
+  color: var(--violet-soft);
+  border-bottom-color: rgba(109, 92, 180, 0.15);
+}
+
+.coaching-tip .feedback-block-title {
+  color: var(--green);
+  border-bottom-color: rgba(70, 160, 110, 0.2);
+}
+
+.model-answer {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: var(--fs-sm);
+}
+
+/* Actions — left aligned */
+.feedback-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.ai-fallback-note {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+@media (max-width: 640px) {
+  .feedback-top {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-si-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-card {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--space-4);
+  }
+}
+
+/* ---- Adaptive follow-up coaching ---- */
+.follow-up-card {
+  border-top: 3px solid var(--violet);
+  margin-bottom: var(--space-4);
+}
+
+.follow-up-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.follow-up-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--violet-soft);
+}
+
+.follow-up-reason {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-style: italic;
+  margin: 0;
+}
+
+.follow-up-question {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  color: var(--text);
+  line-height: 1.45;
+  margin-bottom: var(--space-4);
+}
+
+.follow-up-btn {
+  align-self: flex-start;
+}

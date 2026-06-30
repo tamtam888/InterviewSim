@@ -1,0 +1,207 @@
+/* Auth overlay — floats above everything, does not navigate away */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.auth-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  padding: var(--space-7) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  animation: fadeSlideUp 0.2s ease;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.auth-close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: var(--space-2);
+  color: var(--text-muted);
+}
+
+[dir=rtl] .auth-close { right: auto; left: var(--space-3); }
+
+.auth-brand {
+  margin-bottom: var(--space-1);
+  opacity: 0.85;
+}
+
+.auth-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  color: var(--text);
+}
+
+.auth-body {
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: start;
+}
+
+.auth-label {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.auth-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-dim);
+}
+
+.auth-submit {
+  width: 100%;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.auth-error {
+  color: var(--red);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.auth-note {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+.auth-guest-link {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+/* Sent confirmation */
+.auth-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.auth-sent-icon {
+  color: var(--green);
+}
+
+/* Password field with show/hide toggle */
+.auth-password-wrap {
+  position: relative;
+}
+
+.auth-password-wrap .auth-input {
+  padding-inline-end: 40px;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  inset-inline-end: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.auth-password-toggle:hover {
+  color: var(--text);
+}
+
+/* Field wrapper for consistent spacing */
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Forgot password inline link */
+.auth-forgot-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: color var(--transition), text-decoration-color var(--transition);
+  align-self: flex-end;
+  margin-top: calc(-1 * var(--space-1));
+}
+
+.auth-forgot-link:hover {
+  color: var(--violet);
+  text-decoration-color: var(--violet);
+}
+
+/* "Don't have an account?" line */
+.auth-switch {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+/* Inline switch / back button */
+.auth-switch-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: var(--fs-xs);
+  color: var(--violet);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--transition);
+}
+
+.auth-switch-btn:hover {
+  text-decoration-color: var(--violet);
+}

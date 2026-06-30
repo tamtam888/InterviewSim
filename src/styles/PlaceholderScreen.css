@@ -1,0 +1,38 @@
+.placeholder-page {
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: var(--space-9);
+}
+
+.placeholder-card {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-7);
+}
+
+.placeholder-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: var(--violet-dim);
+  color: var(--violet-soft);
+}
+
+.placeholder-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-lg);
+}
+
+.placeholder-text {
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+}

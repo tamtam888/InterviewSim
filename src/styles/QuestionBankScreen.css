@@ -1,0 +1,85 @@
+.question-bank {
+  max-width: 820px;
+}
+
+.qb-role-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.role-chip.is-active {
+  border-color: var(--violet);
+  background: var(--violet-dim);
+  color: var(--violet-soft);
+}
+
+.qb-list {
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.qb-item {
+  padding: 0;
+  overflow: hidden;
+}
+
+.qb-item-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  text-align: start;
+  cursor: pointer;
+}
+
+.qb-item-head:hover {
+  background: var(--surface-2);
+}
+
+.qb-item-head > svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.qb-item-head .pill {
+  flex-shrink: 0;
+}
+
+.qb-item-text {
+  flex: 1;
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  min-width: 0;
+}
+
+.qb-item-body {
+  padding: var(--space-2) var(--space-4) var(--space-4);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.qb-item-tip {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.qb-item-model {
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+}
+
+.qb-shared-note {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  margin-bottom: var(--space-3);
+}

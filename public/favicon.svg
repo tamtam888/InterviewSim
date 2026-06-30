@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" fill="#f0ebff"/>
+  <!-- Interviewer (left) -->
+  <circle cx="16" cy="21" r="7" fill="#5c35d4"/>
+  <path d="M6 45c0-9 4-15 10-15s10 6 10 15" fill="#5c35d4" opacity="0.75"/>
+  <!-- Candidate (right) -->
+  <circle cx="48" cy="21" r="7" fill="#5c35d4"/>
+  <path d="M38 45c0-9 4-15 10-15s10 6 10 15" fill="#5c35d4" opacity="0.75"/>
+  <!-- Desk -->
+  <rect x="8" y="45" width="48" height="5" rx="2.5" fill="#5c35d4" opacity="0.2"/>
+  <!-- Speech bubble -->
+  <rect x="34" y="4" width="22" height="13" rx="5" fill="#5c35d4"/>
+  <path d="M40 17 l-2 4 6-4" fill="#5c35d4"/>
+  <rect x="38" y="8" width="10" height="2" rx="1" fill="white" opacity="0.9"/>
+  <rect x="38" y="12" width="7" height="2" rx="1" fill="white" opacity="0.7"/>
+</svg>

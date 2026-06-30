@@ -1,0 +1,283 @@
+.resume-page {
+  max-width: 1000px;
+}
+
+/* Privacy notice */
+.resume-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  background: var(--green-dim);
+  border: 1px solid rgba(70, 160, 110, 0.2);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-5);
+  color: var(--green);
+  font-size: var(--fs-xs);
+}
+
+.resume-privacy svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.resume-privacy p {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Two-column layout */
+.resume-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.resume-editor-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.resume-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-2);
+}
+
+.resume-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 420px;
+  padding: var(--space-4);
+  text-align: start;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.65;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Hebrew text looks bad in monospace — use the app sans font in RTL mode */
+[dir=rtl] .resume-textarea {
+  font-family: var(--font-sans);
+}
+
+.resume-textarea:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-dim);
+}
+
+.resume-textarea::placeholder {
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+.resume-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Keywords sidebar */
+.resume-keywords-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.resume-keywords-card,
+.resume-tip-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.resume-keywords-empty {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.resume-keywords-note {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  margin-bottom: var(--space-2);
+}
+
+.resume-keyword-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.resume-keyword-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  background: var(--violet-dim);
+  color: var(--violet-soft);
+  border: 1px solid rgba(109, 92, 180, 0.2);
+}
+
+.resume-tip-list {
+  margin: 0;
+  padding: 0;
+  padding-inline-start: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+}
+
+.resume-tip-list li::marker {
+  color: var(--violet-soft);
+}
+
+/* ── Upload dropzone ─────────────────────────────────────────────────── */
+.resume-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+  min-height: 140px;
+}
+
+.resume-dropzone:hover,
+.resume-dropzone:focus-within {
+  border-color: var(--violet);
+  background: var(--violet-dim);
+}
+
+.resume-dropzone.drag-over {
+  border-color: var(--violet);
+  background: var(--violet-dim);
+}
+
+.resume-dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.resume-dropzone-icon {
+  color: var(--violet-soft);
+  opacity: 0.7;
+}
+
+.resume-dropzone-text {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.resume-dropzone-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  background: var(--violet-dim);
+  color: var(--violet-soft);
+  border: 1px solid rgba(109, 92, 180, 0.25);
+  pointer-events: none; /* the hidden <input> handles the click */
+}
+
+/* ── Upload status badges ────────────────────────────────────────────── */
+.resume-upload-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.resume-upload-status.status-parsing {
+  background: var(--violet-dim);
+  color: var(--violet-soft);
+}
+
+/* Spin the Loader icon during file parsing — reuses global .spin from App.css */
+.resume-upload-status.status-parsing svg {
+  animation: spin 0.9s linear infinite;
+}
+
+.resume-upload-status.status-success {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.resume-upload-status.status-error {
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid rgba(224, 93, 79, 0.2);
+}
+
+/* ── Cloud sync indicator ────────────────────────────────────────────── */
+.resume-cloud-sync {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.resume-cloud-sync.sync-saving { color: var(--violet-soft); }
+.resume-cloud-sync.sync-saved  { color: var(--green); }
+.resume-cloud-sync.sync-error  { color: #c0392b; }
+
+/* ── Sign-in-to-sync nudge ───────────────────────────────────────────── */
+.resume-sync-nudge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  background: var(--violet-dim);
+  border: 1px solid rgba(109, 92, 180, 0.15);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .resume-layout {
+    grid-template-columns: 1fr;
+  }
+  /* Editor column (upload + textarea) stays first; keywords/tips follow */
+  .resume-editor-col  { order: 1; }
+  .resume-keywords-col { order: 2; }
+}
