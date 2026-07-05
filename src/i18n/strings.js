@@ -123,7 +123,7 @@ export const STRINGS = {
   skippedAnswer: { en: "You skipped this question.", he: "דילגתם על השאלה הזו." },
   strengths: { en: "What worked well", he: "מה עבד טוב" },
   improvements: { en: "What to improve", he: "מה כדאי לשפר" },
-  suggestedAnswer: { en: "A stronger answer could look like", he: "כך יכולה להיראות תשובה חזקה יותר" },
+  suggestedAnswer: { en: "Add more detail", he: "כך יכולה להיראות תשובה חזקה יותר" },
   nextQuestion: { en: "Next question", he: "לשאלה הבאה" },
   seeSummary: { en: "See session summary", he: "לסיכום הראיון" },
   scoreLabel: { en: "Score", he: "ציון" },

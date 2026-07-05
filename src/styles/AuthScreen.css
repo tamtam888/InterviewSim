@@ -1,4 +1,4 @@
-/* Auth overlay — floats above everything, does not navigate away */
+/* Auth overlay -- floats above everything, does not navigate away */
 .auth-overlay {
   position: fixed;
   inset: 0;
@@ -13,6 +13,7 @@
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
