@@ -64,11 +64,11 @@ export const STRINGS = {
   setupDifficulty: { en: "Difficulty", he: "רמת קושי" },
 
   levelJunior: { en: "Junior", he: "ג'וניור" },
-  levelJuniorDesc: { en: "0–2 years, learning the ropes", he: "0–2 שנים, מתחיל/ה" },
+  levelJuniorDesc: { en: "0–2 years, learning the ropes", he: "⁦0–2⁩  שנים, מתחיל/ה" },
   levelMid: { en: "Mid-Level", he: "מיד-לבל" },
-  levelMidDesc: { en: "2–5 years, independent contributor", he: "2–5 שנים, עצמאי/ת" },
+  levelMidDesc: { en: "2–5 years, independent contributor", he: "⁦2–5⁩  שנים, עצמאי/ת" },
   levelSenior: { en: "Senior", he: "סיניור" },
-  levelSeniorDesc: { en: "5+ years, technical leader", he: "5+ שנים, מוביל/ה טכני/ת" },
+  levelSeniorDesc: { en: "5+ years, technical leader", he: "⁦5+⁩  שנים, מוביל/ה טכני/ת" },
   levelLead: { en: "Lead / Staff", he: "ליד / סטאף" },
   levelLeadDesc: { en: "Architecture, strategy & mentoring", he: "ארכיטקטורה, אסטרטגיה ומנטורינג" },
 
