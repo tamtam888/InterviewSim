@@ -80,8 +80,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 44px;   /* was 32px — minimum 44px touch target */
+  height: 44px;  /* was 32px */
   border-radius: 8px;
   color: var(--text-muted);
   transition: background var(--transition), color var(--transition);

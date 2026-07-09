@@ -280,4 +280,6 @@
   /* Editor column (upload + textarea) stays first; keywords/tips follow */
   .resume-editor-col  { order: 1; }
   .resume-keywords-col { order: 2; }
+  /* 420px is too tall on a phone — collapse to comfortable scroll size */
+  .resume-textarea { min-height: 200px; }
 }

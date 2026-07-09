@@ -76,6 +76,8 @@
     width: 100%;
     margin-inline: 0;
   }
+  /* Raise filter tabs to 44px touch target on mobile */
+  .prog-filter-tab { min-height: 44px; }
 }
 
 /* Compact metric card — mirrors sf-cat-card design language */
@@ -179,10 +181,13 @@
   border: none;
   cursor: pointer;
   color: var(--text-muted);
-  padding: 2px 4px;
+  padding: 0;
+  min-width: 44px;   /* was 2px 4px — proper touch target */
+  min-height: 44px;
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-inline-start: auto;
   flex-shrink: 0;
   transition: color 0.15s, background 0.15s;
@@ -284,7 +289,8 @@
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 4px 12px;
+  padding: 6px 12px;         /* was 4px — extra 2px top/bottom for easier tapping */
+  min-height: 36px;          /* desktop minimum */
   font-size: var(--fs-sm);
   font-family: var(--font-sans);
   color: var(--text-secondary);

@@ -86,7 +86,7 @@ function ResultItem({ result, index }) {
         aria-expanded={open}
       >
         <span className={`result-score score-${scoreLevelKey(feedback.score)}`}>
-          {feedback.skipped ? "—" : feedback.score}
+          {feedback.skipped ? "\u2014" : feedback.score}
         </span>
         <span className="result-question">
           <span className="result-index">
@@ -246,7 +246,7 @@ export default function SummaryScreen({
         .then(() => setCloudStatus("saved"))
         .catch(() => setCloudStatus("failed"));
     }
-  }, [summary, sessionId, roleId, interviewType, interviewerId, questionCount, lang, results, user, session]);
+  }, [summary, sessionId, roleId, interviewType, interviewerId, questionCount, experienceLevel, difficulty, lang, results, user, session]);
 
   if (!summary) {
     return (

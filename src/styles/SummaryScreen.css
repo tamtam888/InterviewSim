@@ -141,6 +141,7 @@
   gap: var(--space-3);
   width: 100%;
   padding: var(--space-3) var(--space-4);
+  min-height: 44px;  /* meets touch target minimum across all devices */
   text-align: start;
   cursor: pointer;
   transition: background var(--transition);

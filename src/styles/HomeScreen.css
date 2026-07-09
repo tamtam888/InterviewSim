@@ -57,6 +57,7 @@
   gap: var(--ds-space-2);
   padding: 0 var(--ds-space-4);
   height: 36px;
+  min-height: 36px; /* min-height enables mobile override to 44px without !important */
   border-radius: var(--ds-radius-sm);
   font-family: var(--ds-font-sans);
   font-size: var(--ds-size-body);
@@ -260,9 +261,9 @@
 }
 .dash-hero-change:hover { opacity: 1; }
 
-/* Responsive: 640px — stack hero vertically, shrink role headline */
+/* Responsive: 640px — stack hero vertically, shrink role headline, reduce padding */
 @media (max-width: 640px) {
-  .dash-hero { flex-direction: column; align-items: stretch; gap: var(--ds-space-5); }
+  .dash-hero { flex-direction: column; align-items: stretch; gap: var(--ds-space-5); padding: 20px; }
   .dash-hero-action { width: 100%; }
   /* Responsive scale: 28px keeps role name readable on mobile. */
   .dash-hero-role { font-size: 28px; }
@@ -629,6 +630,7 @@
   align-items: center;
   gap: var(--ds-space-2);
   padding: var(--ds-space-2) var(--ds-space-3);
+  min-height: 36px; /* accessible minimum; bumped to 44px on mobile below */
   border-radius: var(--ds-radius-pill);
   background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
@@ -711,4 +713,12 @@
   font-size: var(--ds-size-label);
   font-weight: var(--ds-weight-semibold);
   flex-shrink: 0;
+}
+
+/* ── Mobile touch targets ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  /* DS buttons are 36px on desktop — raise to 44px minimum on mobile */
+  .ds-btn { min-height: 44px; }
+  /* Role chips expand to 44px tap area on mobile */
+  .dash-role-chip { min-height: 44px; }
 }

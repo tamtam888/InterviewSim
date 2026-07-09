@@ -137,17 +137,20 @@
 }
 
 .auth-password-wrap .auth-input {
-  padding-inline-end: 40px;
+  padding-inline-end: 48px; /* increased from 40px — prevents icon overlapping password dots on Android */
 }
 
 .auth-password-toggle {
   position: absolute;
-  inset-inline-end: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 6px;
+  inset-inline-end: 0;
+  top: 0;
+  bottom: 0;
+  width: 44px;   /* 44px touch target — was 27px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   color: var(--text-muted);
-  line-height: 1;
 }
 
 .auth-password-toggle:hover {

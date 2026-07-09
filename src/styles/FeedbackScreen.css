@@ -209,3 +209,7 @@
 .follow-up-btn {
   align-self: flex-start;
 }
+
+@media (max-width: 480px) {
+  .follow-up-btn { width: 100%; justify-content: center; align-self: stretch; }
+}
