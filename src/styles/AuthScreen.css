@@ -131,30 +131,69 @@
   color: var(--green);
 }
 
-/* Password field with show/hide toggle */
+/* ── Password field — structural flex layout ──────────────────────────────────
+   Input and toggle are flex siblings in separate columns.
+   Text cursor, placeholder, and password bullets are constrained to the
+   input column and CANNOT overlap the button regardless of browser quirks.
+
+   Why direction:ltr on the wrapper:
+     The password <input> always uses dir="ltr" (passwords are not RTL text).
+     Fixing direction on the wrapper keeps the button anchored to the right edge
+     in both LTR and RTL page modes — no per-direction overrides needed.
+──────────────────────────────────────────────────────────────────────────── */
 .auth-password-wrap {
-  position: relative;
+  position: relative;       /* safe to keep; no absolute children any more */
+  display: flex;
+  align-items: stretch;
+  direction: ltr;           /* password input is always ltr; button always right */
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;         /* clips children to wrapper border-radius */
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
+/* Focus ring lives on the wrapper, not the input */
+.auth-password-wrap:focus-within {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-dim);
+}
+
+/* Input takes all remaining space; button reserves its own fixed column */
 .auth-password-wrap .auth-input {
-  padding-inline-end: 48px; /* increased from 40px — prevents icon overlapping password dots on Android */
+  flex: 1 1 0;
+  width: auto;              /* override the standalone .auth-input width:100% */
+  min-width: 0;
+  border: none;             /* wrapper provides the border */
+  border-radius: 0;         /* wrapper overflow:hidden + border-radius handles corners */
+  background: transparent;
+  box-shadow: none;
+  /* No padding-inline-end hack — the button column reserves space structurally */
 }
 
+/* Input focus: suppress individual ring; wrapper :focus-within handles it */
+.auth-password-wrap .auth-input:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* Toggle button: fixed-width column, never overlaps the input text area */
 .auth-password-toggle {
-  position: absolute;
-  inset-inline-end: 0;
-  top: 0;
-  bottom: 0;
-  width: 44px;   /* 44px touch target — was 27px */
+  position: static;         /* was absolute — removing the overlay entirely */
+  flex: 0 0 44px;           /* fixed 44px width, no shrink/grow */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   color: var(--text-muted);
+  border-radius: 0;         /* wrapper handles corners */
+  border-inline-start: 1px solid var(--border); /* thin divider between input and button */
 }
 
 .auth-password-toggle:hover {
   color: var(--text);
+  background: var(--surface-2);
 }
 
 /* Field wrapper for consistent spacing */
