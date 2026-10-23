@@ -722,3 +722,22 @@
   /* Role chips expand to 44px tap area on mobile */
   .dash-role-chip { min-height: 44px; }
 }
+
+/* Dashboard refinement: match the warm, editorial InterviewSim showcase. */
+.dashboard { background: var(--color-canvas); }
+.dash-head { margin-bottom: 28px; }
+.dash-title { font-size: clamp(21px, 2.5vw, 27px); font-weight: 700; letter-spacing: -.03em; }
+.dash-subtitle { font-size: 14px; line-height: 1.6; }
+.dash-hero { background: linear-gradient(125deg, #eee8ff 0%, #f8f5ff 70%, #ffffff 100%); border: 1px solid #ded5fa; border-radius: 26px; box-shadow: 0 12px 36px rgba(72,45,151,.07); }
+.dash-hero-role { font-size: clamp(30px, 4vw, 42px); letter-spacing: -.035em; }
+.dash-hero-evidence { opacity: .9; }
+.dash-hero-meta { opacity: .75; }
+.dash-hero-ctx, .dash-hero-focus, .dash-hero-change { opacity: 1; }
+.ds-section-card { border-radius: 20px; border-color: var(--color-border); box-shadow: 0 5px 24px rgba(49,31,114,.045); }
+.ds-section-label { font-size: 12px; letter-spacing: .035em; }
+.ds-btn { border-radius: 12px; min-height: 44px; height: auto; padding-block: 10px; font-weight: 600; }
+.ds-btn-primary { box-shadow: 0 5px 15px rgba(74,49,166,.14); }
+.sf-cat-card { border-radius: 16px; background: #faf9ff; }
+.sf-cat-card.sf-cat-rec { background: #eee9ff; }
+.recent-row { min-height: 54px; }
+@media (max-width:640px) { .dash-title { font-size: 22px; } .dash-hero { padding: 24px 20px; border-radius: 20px; } .dash-hero-role { font-size: 30px; } .ds-section-card { padding: 20px; } }
