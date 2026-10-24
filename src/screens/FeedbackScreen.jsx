@@ -90,10 +90,6 @@ export default function FeedbackScreen({ result, isLast, onNext, onPracticeFollo
           <span aria-hidden="true">{showCoaching ? "−" : "+"}</span>
         </button>
         {showCoaching && <div className="coaching-content"><div className="coaching-block">
-          <h2 className="feedback-block-title">
-            <Sparkles size={14} aria-hidden="true" />
-            {t("suggestedAnswer")}
-          </h2>
           <p className="model-answer">{feedback.suggestedAnswer ?? question.model[lang]}</p>
         </div>
         {feedback.nextPracticeTip && (
@@ -105,6 +101,7 @@ export default function FeedbackScreen({ result, isLast, onNext, onPracticeFollo
             <p className="model-answer">{feedback.nextPracticeTip}</p>
           </div>
         )}
+        </div>}
       </section>
 
       {/* Adaptive follow-up coaching */}
