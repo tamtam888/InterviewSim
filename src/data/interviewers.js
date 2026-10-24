@@ -4,10 +4,10 @@
  */
 export const INTERVIEWERS = [
   {
-    id: "sarah",
+    id: "emma",
     accent: "violet",
     initial: { en: "S", he: "ש" },
-    name: { en: "Sarah", he: "שרה" },
+    name: { en: "Emma", he: "אמה" },
     title: { en: "Tech Lead", he: "ראשת צוות פיתוח" },
     style: { en: "Direct and technical", he: "ישירה וטכנית" },
     focus: {
@@ -17,10 +17,10 @@ export const INTERVIEWERS = [
     vibeKey: "vibeSarah",
   },
   {
-    id: "daniel",
+    id: "alex",
     accent: "blue",
     initial: { en: "D", he: "ד" },
-    name: { en: "Daniel", he: "דניאל" },
+    name: { en: "Alex", he: "אלכס" },
     title: { en: "Engineering Manager", he: "מנהל פיתוח" },
     style: { en: "Leadership and collaboration", he: "מנהיגות ושיתוף פעולה" },
     focus: {
