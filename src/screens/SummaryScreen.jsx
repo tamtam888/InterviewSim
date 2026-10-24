@@ -137,7 +137,7 @@ function ResultItem({ result, index }) {
           <h3 className="result-block-title result-title-violet">
             <Lightbulb size={14} aria-hidden="true" /> {t("suggestedAnswer")}
           </h3>
-          <p className="result-model">{question.model[lang]}</p>
+          <p className="result-model">{feedback.suggestedAnswer ?? question.model[lang]}</p>
         </div>
       )}
     </li>
@@ -353,6 +353,7 @@ export default function SummaryScreen({
 
       <section className="summary-results">
         <h2 className="summary-results-title">{t("allQuestions")}</h2>
+        <p className="summary-results-hint">{lang === "he" ? "לחצי על שאלה כדי לצפות בתשובה ובמשוב המלא." : "Select a question to review your answer and detailed feedback."}</p>
         <ul className="results-list">
           {results.map((result, i) => (
             <ResultItem key={result.question.id} result={result} index={i} />
