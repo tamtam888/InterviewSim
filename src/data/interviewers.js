@@ -31,19 +31,6 @@ export const INTERVIEWERS = [
     },
     vibeKey: "vibeDaniel",
   },
-  {
-    id: "maya",
-    accent: "green",
-    initial: { en: "M", he: "מ" },
-    name: { en: "Maya", he: "מאיה" },
-    title: { en: "HR Manager", he: "מנהלת משאבי אנוש" },
-    style: { en: "Communication and behavioral", he: "תקשורת והתנהגות" },
-    focus: {
-      en: "Culture fit, motivation & the story behind your answers",
-      he: "התאמה תרבותית, מוטיבציה והסיפור שמאחורי התשובות",
-    },
-    vibeKey: "vibeMaya",
-  },
 ];
 
 export function getInterviewer(id) {
