@@ -86,3 +86,17 @@
   border-top: 1px solid var(--border);
   font-variant-numeric: tabular-nums;
 }
+
+/* Visual refinement — role picker */
+.role-select { max-width: 1180px; }
+.role-select-title { font-size: clamp(1.7rem,3vw,2.35rem); font-weight: 800; letter-spacing: -.025em; color: var(--text); }
+.role-grid { gap: 18px; grid-template-columns: repeat(auto-fill,minmax(min(100%,275px),1fr)); }
+.role-card { padding: 22px; gap: 14px; border-radius: 20px; border-inline-start-width: 1px; box-shadow: var(--shadow-card); min-height: 190px; }
+.role-card:hover { border-color: var(--violet); box-shadow: 0 12px 30px rgba(63,40,147,.13); transform: translateY(-2px); }
+.role-card:focus-visible { outline: 3px solid #8468eb; outline-offset: 3px; }
+.role-card-icon { width: 46px; height: 46px; border-radius: 14px; background: #eee8ff; }
+.role-card-name { font-size: 1.075rem; }
+.role-card-tagline { font-size: .92rem; line-height: 1.6; flex: 1; }
+.role-card-category,.role-card-meta { font-size: .82rem; color: var(--text-secondary); }
+@media(max-width:600px){.role-grid{grid-template-columns:1fr;gap:12px}.role-card{min-height:0;padding:18px}}
+@media(prefers-reduced-motion:reduce){.role-card:hover{transform:none}}

@@ -349,3 +349,14 @@
   text-align: end;
   margin-top: calc(-1 * var(--space-1));
 }
+
+/* Summary hierarchy and scan-friendly drill-down */
+.summary{max-width:880px}
+.summary-score-card{border-radius:22px;box-shadow:var(--shadow-card)}
+.summary-results-title{font-size:1.1rem;letter-spacing:0;text-transform:none;color:var(--text)}
+.summary-results-hint{font-size:var(--fs-sm);color:var(--text-secondary);margin-bottom:14px}
+.result-item{border-radius:15px}
+.result-item-head{padding:16px 18px;min-height:58px}
+.result-item-head:focus-visible{outline:3px solid var(--violet);outline-offset:-3px}
+.recommendations{border-radius:20px;box-shadow:var(--shadow-card)}
+@media(max-width:640px){.summary-top{gap:12px}.summary-score-card{min-width:0}.result-item-head{padding:13px}}

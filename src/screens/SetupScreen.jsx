@@ -194,7 +194,8 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
               >
                 <span className="interviewer-card-head">
                   <span className="interviewer-avatar" aria-hidden="true">
-                    {person.initial[lang]}
+                    <img src={person.portrait} alt="" className="interviewer-photo" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                    <span className="interviewer-avatar-fallback">{person.initial[lang]}</span>
                   </span>
                   <span className="interviewer-card-identity">
                     <span className="interviewer-name">{person.name[lang]}</span>

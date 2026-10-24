@@ -1,4 +1,5 @@
 import { ArrowRight, ArrowLeft, CheckCircle2, TrendingUp, Sparkles, Lightbulb, Cpu, MessageCircleQuestion } from "lucide-react";
+import { useState } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { scoreLevelKey } from "../utils/scoreLevel";
 import ScoreRing from "../components/ScoreRing";
@@ -7,6 +8,8 @@ import "../styles/FeedbackScreen.css";
 export default function FeedbackScreen({ result, isLast, onNext, onPracticeFollowUp }) {
   const { t, lang, isRTL } = useLanguage();
   const NextArrow = isRTL ? ArrowLeft : ArrowRight;
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [showCoaching, setShowCoaching] = useState(false);
 
   if (!result) return null;
   const { question, answer, feedback } = result;
@@ -39,10 +42,13 @@ export default function FeedbackScreen({ result, isLast, onNext, onPracticeFollo
         </div>
 
         <div className="card your-answer-card fade-up">
-          <h2 className="feedback-block-title">{t("yourAnswer")}</h2>
-          <p className="your-answer-text">
+          <button type="button" className="feedback-disclosure" aria-expanded={showAnswer} onClick={() => setShowAnswer(v => !v)}>
+            <span className="feedback-block-title">{t("yourAnswer")}</span>
+            <span aria-hidden="true">{showAnswer ? "−" : "+"}</span>
+          </button>
+          {showAnswer && <p className="your-answer-text">
             {feedback.skipped ? <em>{t("skippedAnswer")}</em> : answer}
-          </p>
+          </p>}
         </div>
       </section>
 
@@ -79,11 +85,11 @@ export default function FeedbackScreen({ result, isLast, onNext, onPracticeFollo
 
       {/* Coaching: suggested answer + tip */}
       <section className="card feedback-block block-coaching fade-up">
-        <div className="coaching-block">
-          <h2 className="feedback-block-title">
-            <Sparkles size={14} aria-hidden="true" />
-            {t("suggestedAnswer")}
-          </h2>
+        <button type="button" className="feedback-disclosure" aria-expanded={showCoaching} onClick={() => setShowCoaching(v => !v)}>
+          <span className="feedback-block-title"><Sparkles size={14} aria-hidden="true" />{t("suggestedAnswer")}</span>
+          <span aria-hidden="true">{showCoaching ? "−" : "+"}</span>
+        </button>
+        {showCoaching && <div className="coaching-content"><div className="coaching-block">
           <p className="model-answer">{feedback.suggestedAnswer ?? question.model[lang]}</p>
         </div>
         {feedback.nextPracticeTip && (
@@ -95,6 +101,7 @@ export default function FeedbackScreen({ result, isLast, onNext, onPracticeFollo
             <p className="model-answer">{feedback.nextPracticeTip}</p>
           </div>
         )}
+        </div>}
       </section>
 
       {/* Adaptive follow-up coaching */}

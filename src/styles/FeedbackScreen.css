@@ -213,3 +213,19 @@
 @media (max-width: 480px) {
   .follow-up-btn { width: 100%; justify-content: center; align-self: stretch; }
 }
+
+/* Progressive disclosure: keep essential coaching visible first */
+.feedback-disclosure{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:4px 0;background:transparent;border:0;color:var(--text);cursor:pointer;text-align:start;font:inherit}
+.feedback-disclosure .feedback-block-title{margin:0;border:0;display:flex;align-items:center;gap:8px}
+.feedback-disclosure>span:last-child{font-size:1.35rem;color:var(--violet);line-height:1}
+.feedback-disclosure:focus-visible{outline:3px solid var(--violet);outline-offset:4px;border-radius:5px}
+.your-answer-card{align-self:start}
+.coaching-content{padding-top:18px}
+.feedback-top,.feedback-si-grid{gap:16px}
+@media(max-width:640px){.feedback{max-width:100%}.feedback-actions .btn{width:100%;justify-content:center}}
+
+/* Keep the score panel compact when the answer is long. */
+@media (min-width: 641px) {
+  .feedback-top { align-items: start; }
+  .feedback-top .score-card { align-self: start; min-height: 180px; }
+}

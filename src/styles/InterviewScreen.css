@@ -308,3 +308,23 @@
   font-size: var(--fs-xs);
   color: var(--text-secondary);
 }
+
+/* Visual refinement — interview conversation */
+.interview { max-width: 850px; }
+.interview-head { margin-block: 30px 22px; gap: 15px; }
+.interview-count { font-size: .9rem; color: var(--text-secondary); }
+.progress-track { height: 9px; background: #ebe6fa; border: 0; }
+.progress-fill { background: linear-gradient(90deg,#8468e5,#5b42c7); }
+.question-card { gap: 20px; border-radius: 24px; box-shadow: var(--shadow-card); }
+.interviewer-row { gap: 14px; padding-bottom: 18px; }
+.interview-avatar { width: 48px; height: 48px; border-radius: 15px; font-size: 1rem; }
+.interviewer-identity-name { font-size: 1rem; }
+.interviewer-identity-label { color: var(--text-secondary); }
+.question-text { color: var(--text); line-height: 1.65; letter-spacing: -.01em; }
+@media(max-width:600px){.interview-head{margin-block:22px 16px}.question-card{gap:16px;border-radius:18px}.interview-avatar{width:44px;height:44px}}
+
+/* Selected interviewer portrait */
+.interview-avatar{position:relative;overflow:hidden;width:58px;height:58px;border-radius:16px}
+.interview-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:1}
+.interview-avatar-fallback{position:relative;z-index:0}
+@media(max-width:600px){.interview-avatar{width:52px;height:52px}}

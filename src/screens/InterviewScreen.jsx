@@ -96,7 +96,8 @@ export default function InterviewScreen({
       <section className="card question-card fade-up">
         <div className="interviewer-row">
           <span className={`interview-avatar avatar-${interviewer.accent}`} aria-hidden="true">
-            {interviewer.initial[lang]}
+            <img src={interviewer.portrait} alt="" className="interview-photo" onError={(e) => { e.currentTarget.style.display = "none"; }} />
+            <span className="interview-avatar-fallback">{interviewer.initial[lang]}</span>
           </span>
           <span className="interviewer-identity">
             <span className="interviewer-identity-name">
