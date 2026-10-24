@@ -322,3 +322,9 @@
 .interviewer-identity-label { color: var(--text-secondary); }
 .question-text { color: var(--text); line-height: 1.65; letter-spacing: -.01em; }
 @media(max-width:600px){.interview-head{margin-block:22px 16px}.question-card{gap:16px;border-radius:18px}.interview-avatar{width:44px;height:44px}}
+
+/* Selected interviewer portrait */
+.interview-avatar{position:relative;overflow:hidden;width:58px;height:58px;border-radius:16px}
+.interview-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:1}
+.interview-avatar-fallback{position:relative;z-index:0}
+@media(max-width:600px){.interview-avatar{width:52px;height:52px}}
