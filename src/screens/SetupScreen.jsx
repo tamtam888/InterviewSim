@@ -181,7 +181,7 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
           </h2>
           <p className="setup-section-note">{t("interviewerNote")}</p>
           <div className="interviewer-grid" role="radiogroup" aria-label={t("chooseInterviewer")}>
-            {INTERVIEWERS.filter((person) => person.id === "sarah" || person.id === "daniel").map((person) => (
+            {INTERVIEWERS.map((person) => (
               <button
                 type="button"
                 key={person.id}
