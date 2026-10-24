@@ -5,10 +5,10 @@
 export const INTERVIEWERS = [
   {
     id: "sarah",
-    portrait: "/images/emma_interviewer.webp",
+    portrait: "/image/sarah_interviewer.webp",
     accent: "violet",
-    initial: { en: "E", he: "א" },
-    name: { en: "Emma", he: "אמה" },
+    initial: { en: "S", he: "ש" },
+    name: { en: "Sarah", he: "שרה" },
     title: { en: "Tech Lead", he: "ראשת צוות פיתוח" },
     style: { en: "Direct and technical", he: "ישירה וטכנית" },
     focus: {
@@ -19,10 +19,10 @@ export const INTERVIEWERS = [
   },
   {
     id: "daniel",
-    portrait: "/images/alex_interviewer.webp",
+    portrait: "/image/daniel_interviewer.webp",
     accent: "blue",
-    initial: { en: "A", he: "א" },
-    name: { en: "Alex", he: "אלכס" },
+    initial: { en: "D", he: "ד" },
+    name: { en: "Daniel", he: "דניאל" },
     title: { en: "Engineering Manager", he: "מנהל פיתוח" },
     style: { en: "Leadership and collaboration", he: "מנהיגות ושיתוף פעולה" },
     focus: {
@@ -30,6 +30,20 @@ export const INTERVIEWERS = [
       he: "קבלת החלטות, אחריות ואיך אתם עובדים בצוות",
     },
     vibeKey: "vibeDaniel",
+  },
+  {
+    id: "maya",
+    portrait: "/image/maya_interviewer.webp",
+    accent: "green",
+    initial: { en: "M", he: "מ" },
+    name: { en: "Maya", he: "מאיה" },
+    title: { en: "HR Manager", he: "מנהלת משאבי אנוש" },
+    style: { en: "Empathetic and people-focused", he: "אמפתית וממוקדת באנשים" },
+    focus: {
+      en: "Motivation, communication, teamwork and professional growth",
+      he: "מוטיבציה, תקשורת, עבודת צוות והתפתחות מקצועית",
+    },
+    vibeKey: "vibeMaya",
   },
 ];
 
