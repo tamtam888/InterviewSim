@@ -372,7 +372,7 @@ export default function SummaryScreen({
         </button>
         <button type="button" className="btn btn-ghost" onClick={onHome}>
           <Home size={18} aria-hidden="true" />
-          {t("goHome")}
+          {lang === "he" ? "לעמוד הבית" : "Home"}
         </button>
       </div>
     </main>
