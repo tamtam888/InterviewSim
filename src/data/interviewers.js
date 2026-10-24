@@ -5,7 +5,7 @@
 export const INTERVIEWERS = [
   {
     id: "sarah",
-    portrait: "/images/sarah_interviewer.webp",
+    portrait: "/images/sarah_original_portrait.webp",
     accent: "violet",
     initial: { en: "S", he: "ש" },
     name: { en: "Sarah", he: "שרה" },
@@ -19,7 +19,7 @@ export const INTERVIEWERS = [
   },
   {
     id: "daniel",
-    portrait: "/images/daniel_interviewer.webp",
+    portrait: "/images/daniel_original_portrait.webp",
     accent: "blue",
     initial: { en: "D", he: "ד" },
     name: { en: "Daniel", he: "דניאל" },
