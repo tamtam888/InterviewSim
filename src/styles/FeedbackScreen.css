@@ -223,3 +223,9 @@
 .coaching-content{padding-top:18px}
 .feedback-top,.feedback-si-grid{gap:16px}
 @media(max-width:640px){.feedback{max-width:100%}.feedback-actions .btn{width:100%;justify-content:center}}
+
+/* Keep the score panel compact when the answer is long. */
+@media (min-width: 641px) {
+  .feedback-top { align-items: start; }
+  .feedback-top .score-card { align-self: start; min-height: 180px; }
+}
