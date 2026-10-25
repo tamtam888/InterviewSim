@@ -1,109 +1,156 @@
-# InterviewSim — Interview Practice Simulator
+# InterviewSim — AI-Assisted Interview Practice
 
-Practice job interviews for 10 different roles, answer questions by typing or
-speaking, and get instant local feedback with a score, strengths, improvement
-points and a suggested stronger answer. Fully bilingual: English and Hebrew
-(RTL), switchable from the header.
+**Practice with purpose. Get actionable feedback. Build confidence.**
 
-## Run it
+InterviewSim is a bilingual (English / Hebrew, RTL) web application for preparing for job interviews. It combines role-specific interview practice, selectable interviewer personas, structured answer feedback, and preparation tools in a responsive interface.
+
+**[Live application](https://interview-sim-ten.vercel.app/)** · **[Portfolio](https://tamtam888.github.io/MyPortfolio/projects.html)**
+
+## What you can do
+
+- **Practice for 10 roles:** Frontend, React, Full-Stack, Backend, QA, Product Manager, UX/UI, Data Analyst, Customer Support / Success, and General.
+- **Customize interviews:** technical, HR, behavioral, or mixed; 4, 6, or 8 questions; experience level and difficulty.
+- **Choose an interviewer:** Sarah (Tech Lead), Daniel (Engineering Manager), or Maya (HR Manager). Personas change presentation and focus, not the scoring rules.
+- **Answer questions:** type your response or use speech recognition when the browser supports it.
+- **Review feedback:** score, strengths, improvement opportunities, suggested answer, and follow-up practice prompts.
+- **See a session summary:** overall score, answered/skipped statistics, recommendations, and question-by-question review.
+- **Prepare beyond practice:** question bank, progress view, résumé tools, and job-description matching. AI-based generation and matching depend on backend configuration.
+- **Use English or Hebrew:** interface language switching and right-to-left layouts.
+- **Use guest mode:** the core practice flow works without a Supabase account; account-dependent persistence requires a configured Supabase backend.
+
+## How evaluation works
+
+| Mode | What happens | Requirements |
+| --- | --- | --- |
+| AI-assisted feedback | The app calls its own `/api/evaluate-answer` and `/api/summarize-session` endpoints; the backend calls OpenAI. | Server-side `OPENAI_API_KEY` |
+| Local practice feedback | If AI is unavailable, the app uses a built-in heuristic evaluator and local session summary. | No API key |
+| AI question generation / job matching | Dedicated backend endpoints generate questions and analyze résumé-to-job fit. | Configured AI backend; fallback behavior varies by feature |
+| Account and saved sessions | Authentication and server-side session persistence through Supabase. | Supabase configuration |
+
+**Important:** Local heuristic scores are practice indicators, not validated assessments of interview performance. AI output can also be imperfect; use the feedback as coaching guidance rather than an objective hiring prediction.
+
+The frontend does not expose the OpenAI secret. Never place private API keys in `VITE_*` variables or commit `.env`.
+
+## Tech stack
+
+- **Frontend:** React 19, JavaScript, Vite 7, CSS, Lucide icons.
+- **Backend:** Node.js, Express request handlers, Vercel serverless API functions.
+- **AI:** OpenAI API through server-side handlers, with local heuristic fallback for answer evaluation and session summaries.
+- **Authentication / persistence:** Supabase (optional for guest practice).
+- **Voice input:** browser Web Speech API, where supported.
+- **Deployment:** Vercel.
+
+## Getting started
+
+**Prerequisites:** Node.js compatible with Vite 7 (Node 20.19+ or 22.12+ recommended), npm.
 
 ```bash
+git clone https://github.com/tamtam888/InterviewSim.git
+cd InterviewSim
 npm install
-npm run dev      # frontend only — works fully offline with local feedback
-npm run build    # production build
-npm run lint     # eslint
+npm run dev
 ```
 
-## AI feedback (optional)
+Open the local URL printed by Vite (typically `http://localhost:5173`).
 
-The app works without any setup using a local heuristic feedback engine.
-To enable real AI evaluation:
+**One command is enough for local development.** `vite.config.js` mounts the Express API handlers into Vite's development server. If no OpenAI key is configured, answer evaluation and session summaries fall back to local feedback.
 
-1. Copy `.env.example` to `.env` in the project root
-   (`interview-sim/.env`).
-2. Put your OpenAI API key in it: `OPENAI_API_KEY=sk-...`
-   The key is read **only** by the Node server — it is never bundled into
-   frontend code (never use a `VITE_` prefix for secrets).
-3. Run both processes in two terminals:
+### Optional AI configuration
 
-```bash
-npm run server   # terminal 1 — API server on http://localhost:3001
-npm run dev      # terminal 2 — Vite proxies /api/* to the server
+1. Copy `.env.example` to `.env` in the repository root.
+2. Set `OPENAI_API_KEY` to your private OpenAI API key.
+3. Optionally set `OPENAI_MODEL` (the example uses `gpt-4o-mini`).
+4. Restart `npm run dev`.
+
+```dotenv
+OPENAI_API_KEY=your_server_side_key
+OPENAI_MODEL=gpt-4o-mini
 ```
 
-`GET http://localhost:3001/api/health` shows whether the key is configured.
-If the server is down or the key is missing, the app automatically falls
-back to local feedback — nothing breaks. Feedback cards show an
-"AI feedback" / "Practice feedback" badge so you always know the source.
+Check `/api/health` to see whether the server recognizes the AI configuration. The health endpoint reports configuration, not a guarantee that an OpenAI request will succeed.
 
-`.env` is git-ignored. Never commit real keys.
+### Optional Supabase configuration
 
-**Before any public release:** add rate limiting to the two POST endpoints —
-they spend OpenAI credits. The exact insertion point is marked with a
-`SECURITY TODO` comment at the top of `server/core.js` (locally:
-`express-rate-limit` in `server/index.js`; on Vercel: WAF rules or an
-Upstash Redis check inside the handlers). Cost caps already in place:
-8,000-char answer limit, 12-result summary limit, `max_tokens` 700/450,
-default model `gpt-4o-mini`.
+The `.env.example` documents the supported variables:
 
-### Deploying to Vercel
-
-The repo is Vercel-ready: the same handlers run as serverless functions from
-`/api` (`api/evaluate-answer.js`, `api/summarize-session.js`, `api/health.js`).
-
-1. Import the repo in Vercel (framework preset: Vite).
-2. In **Project Settings → Environment Variables**, add `OPENAI_API_KEY`
-   (and optionally `OPENAI_MODEL`). This is the ONLY place the key lives in
-   production — it is never bundled into frontend code.
-3. Deploy. The frontend calls `/api/*` on the same domain; no proxy needed.
-
-Locally you can either run `npm run server` (Express, port 3001, proxied by
-Vite) or `vercel dev` (runs the /api functions directly). Both read `.env`.
-
-## Features
-
-- **10 roles**: Frontend, React, Full-Stack, Backend, QA, Product Manager,
-  UX/UI, Data Analyst, Customer Support/Success, General.
-- **4 interview types**: Technical, HR, Behavioral, Mixed.
-- **Session lengths**: 4 / 6 / 8 questions.
-- **Question flow**: one question at a time, with a tip per question, typed
-  answers or voice input (Web Speech API where supported).
-- **Per-answer feedback**: 0–100 score, strengths, what to improve, and a
-  model answer.
-- **Session summary**: overall score, stats, tailored recommendations, full
-  Q&A review, and restart options.
-- **Interviewer personas**: pick who interviews you (Tech Lead / Engineering
-  Manager / HR Lead) — presentational only, scoring is identical.
-
-## Architecture
-
+```dotenv
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your_public_anon_key
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_private_service_role_key
 ```
+
+The `VITE_` variables are browser-visible by design; protect access using Supabase Row Level Security. The service-role key must remain server-only. Database schema and access policies must be configured for account-backed features; setting environment variables alone is not a complete database setup.
+
+Without Supabase configuration, guest practice remains available, while account-backed functionality may be unavailable.
+
+### Available commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Vite frontend and mounted local API routes |
+| `npm run server` | Standalone Express API on port 3001 (alternative development setup) |
+| `npm run build` | Production frontend build |
+| `npm run preview` | Preview a production build |
+| `npm run lint` | ESLint checks |
+| `npm run test:ai` | AI-related test script; inspect its requirements before running |
+
+Do not start `npm run server` alongside `npm run dev` expecting Vite to proxy to it: the current Vite configuration mounts its own handlers directly.
+
+## Deployment
+
+The project is configured for Vercel, with serverless handlers in `api/` and the Vite frontend.
+
+1. Import this repository into Vercel using the Vite framework preset.
+2. Configure `OPENAI_API_KEY` and optional `OPENAI_MODEL` as **server-side environment variables** if AI evaluation is required.
+3. Configure Supabase variables and database policies if account-backed features are required.
+4. Deploy and test the full interview flow, `/api/health`, language switching, and both AI-enabled and fallback behavior.
+
+**Security and cost note:** The code includes request validation, payload limits, and rate-limiting logic. Local Express and Vite development use `express-rate-limit`; the in-memory limiter used in serverless handlers is per process and does **not** provide a shared global quota across Vercel instances. For a public AI-enabled deployment, add centralized rate limiting, abuse protection, monitoring, and spending limits before relying on it for cost control.
+
+## Code organization
+
+```text
 src/
-  App.jsx                 # screen state machine (useReducer)
-  i18n/                   # language context, useLanguage hook, EN/HE strings
-  data/
-    roles.js              # role/interview-type/session-length definitions
-    interviewers.js       # interviewer personas
-    questions/            # bilingual question bank (technical, HR, behavioral)
-  api/evaluationClient.js # evaluation adapter — tries /api/* (AI), falls
-                          # back to the local heuristic on any failure
-  utils/feedback.js       # local heuristic scoring + session summary
-  utils/scoreLevel.js     # score -> UI label mapping (presentation only)
-  hooks/useSpeechInput.js # Web Speech API wrapper (graceful fallback)
-  components/             # AppHeader, AppFooter, ScoreRing, RoleIcon
-  screens/                # Home, RoleSelect, Setup, Interview, Feedback, Summary
-  styles/                 # one CSS file per screen/component + tokens in index.css
-```
-
-```
+  App.jsx                  Application navigation and interview state
+  screens/                 Dashboard, setup, interview, feedback, summary,
+                           questions, progress, résumé, job match, settings
+  data/                    Interviewers, roles, and question data
+  api/evaluationClient.js  AI request adapter and local fallback
+  utils/feedback.js        Local evaluation and session summaries
+  i18n/                    English/Hebrew translations and RTL support
+  hooks/                   Shared application hooks
+  styles/                  Screen and application styles
 server/
-  index.js                # Express API: POST /api/evaluate-answer,
-                          # POST /api/summarize-session, GET /api/health
-  openai.js               # server-side OpenAI call (key from process.env only)
-  prompts.js              # prompt builders
+  core.js                  Shared API request handlers
+  index.js                 Standalone Express development server
+  openai.js                Server-side OpenAI integration
+api/                       Vercel serverless entry points
+public/images/             Interviewer portraits and public assets
+vite.config.js             Vite configuration and development API mounting
+.env.example               Optional configuration template (no real secrets)
 ```
 
-Questions are local data. Feedback comes from OpenAI when the server is
-running with a key, otherwise from the local heuristic engine (answer length,
-STAR structure signals, specificity, keyword coverage). The UI labels the
-source of every piece of feedback.
+## Demo, limitations, and privacy
+
+InterviewSim is a portfolio application and practice tool, **not a hiring decision system**. Sample interview questions and local heuristic feedback do not require an OpenAI connection. AI-dependent features require a working backend and may incur API costs. Speech input availability depends on the browser and permissions.
+
+Avoid submitting sensitive personal information in a demo. When account-backed features are enabled, review the deployed project's privacy, retention, authentication, and Supabase access policies before using real candidate data.
+
+## Quality checklist
+
+Before releasing changes, verify:
+
+- [ ] `npm run lint` and `npm run build` pass.
+- [ ] A complete interview works in English and Hebrew, including RTL.
+- [ ] All three interviewer portraits load correctly.
+- [ ] Feedback clearly indicates whether it came from AI or local practice logic.
+- [ ] Summary statistics match the completed session.
+- [ ] Guest mode works without Supabase and without an OpenAI key.
+- [ ] Authenticated session persistence works when Supabase is configured.
+- [ ] Desktop and mobile layouts, keyboard navigation, and browser back/refresh behavior are checked.
+- [ ] API secrets are not exposed and production abuse/cost controls are configured.
+
+---
+
+Built as a frontend and AI-product portfolio project. [Explore the live demo](https://interview-sim-ten.vercel.app/).
