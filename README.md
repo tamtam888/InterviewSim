@@ -1,5 +1,7 @@
 # InterviewSim — AI-Assisted Interview Practice
 
+**Bilingual interview simulator · React · JavaScript · AI feedback · Job matching**
+
 **Practice with purpose. Get actionable feedback. Build confidence.**
 
 InterviewSim is a bilingual (English / Hebrew, RTL) web application for preparing for job interviews. It combines role-specific interview practice, selectable interviewer personas, structured answer feedback, and preparation tools in a responsive interface.
