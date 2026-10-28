@@ -63,7 +63,6 @@ export default function HomeScreen({ onStart, onQuickStart }) {
   const hasHistory = (dash?.sessions ?? 0) > 0;
   const lastRole = hasHistory ? getRole(dash.last?.roleId) : null;
   const recommended = dash?.recommendedInsight;
-  const firstName = user?.email?.split("@")[0];
 
   if (!dash) {
     return <main className="screen container dashboard-v2" aria-busy="true">
