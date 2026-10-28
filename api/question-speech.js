@@ -31,12 +31,12 @@ export default async function handler(req, res) {
       method: "POST",
       headers: { "Authorization": `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "gpt-4o-mini-tts",
-        voice: lang === "he" ? "coral" : "marin",
+        model: "gpt-4o-mini-tts-2025-12-15",
+        voice: "marin",
         input: text.trim(),
         response_format: "mp3",
         instructions: lang === "he"
-          ? "Speak naturally in fluent Israeli Hebrew as a professional, friendly job interviewer. Read the exact provided question without adding, changing, translating or explaining any words."
+          ? "Speak ONLY in Israeli Hebrew with natural conversational intonation, clear pauses and relaxed pacing. You are a warm, professional interviewer. Read the supplied interview question verbatim, including any English technical terms as normally pronounced in Israeli tech interviews. Do not translate, add introductions, explain, answer or paraphrase the question."
           : "Speak naturally as a calm professional job interviewer. Read the provided question exactly as written; do not add, change, translate or explain anything.",
       }),
       signal: AbortSignal.timeout(18000),
@@ -48,6 +48,7 @@ export default async function handler(req, res) {
     const audio = Buffer.from(await result.arrayBuffer());
     if (!audio.length || audio.length > 2000000) return res.status(503).json({ error: "voice_unavailable" });
     res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("X-Voice-Engine", "ai");
     res.setHeader("Content-Length", String(audio.length));
     return res.status(200).send(audio);
   } catch (err) {
