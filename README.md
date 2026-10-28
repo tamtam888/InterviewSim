@@ -14,6 +14,8 @@ InterviewSim is a bilingual (English / Hebrew, RTL) web application for preparin
 - **Customize interviews:** technical, HR, behavioral, or mixed; 4, 6, or 8 questions; experience level and difficulty.
 - **Choose an interviewer:** Sarah (Tech Lead), Daniel (Engineering Manager), or Maya (HR Manager). Personas change presentation and focus, not the scoring rules.
 - **Answer questions:** type your response or use speech recognition when the browser supports it.
+- **Hear interview questions:** play the exact displayed question using optional server-side AI text-to-speech, with browser voice as a fallback. A separate control plays an AI-generated rephrasing when clarification is requested; the UI identifies which voice engine is in use.
+- **Start from a focused welcome page:** the primary action opens a new interview; the dashboard provides progress and recent-session insights. Saved interviews can be resumed explicitly instead of automatically interrupting the landing page.
 - **Review feedback:** score, strengths, improvement opportunities, suggested answer, and follow-up practice prompts.
 - **See a session summary:** overall score, answered/skipped statistics, recommendations, and question-by-question review.
 - **Prepare beyond practice:** question bank, progress view, résumé tools, and job-description matching. AI-based generation and matching depend on backend configuration.
@@ -28,6 +30,7 @@ InterviewSim is a bilingual (English / Hebrew, RTL) web application for preparin
 | Local practice feedback | If AI is unavailable, the app uses a built-in heuristic evaluator and local session summary. | No API key |
 | AI question generation / job matching | Dedicated backend endpoints generate questions and analyze résumé-to-job fit. | Configured AI backend; fallback behavior varies by feature |
 | Account and saved sessions | Authentication and server-side session persistence through Supabase. | Supabase configuration |
+| Interview speech | `/api/question-speech` generates optional narrated question audio, falling back to the device speech engine when AI audio is unavailable. | Server-side `OPENAI_API_KEY`, supported audio/browser features; API usage may incur charges |
 
 **Important:** Local heuristic scores are practice indicators, not validated assessments of interview performance. AI output can also be imperfect; use the feedback as coaching guidance rather than an objective hiring prediction.
 
@@ -40,6 +43,7 @@ The frontend does not expose the OpenAI secret. Never place private API keys in 
 - **AI:** OpenAI API through server-side handlers, with local heuristic fallback for answer evaluation and session summaries.
 - **Authentication / persistence:** Supabase (optional for guest practice).
 - **Voice input:** browser Web Speech API, where supported.
+- **Voice output:** optional OpenAI speech endpoint with browser SpeechSynthesis fallback; output quality, particularly in Hebrew, depends on the selected voice and service availability. The server-side flag `AI_TTS_ENABLED=false` disables AI speech.
 - **Deployment:** Vercel.
 
 ## Getting started
@@ -61,7 +65,7 @@ Open the local URL printed by Vite (typically `http://localhost:5173`).
 
 1. Copy `.env.example` to `.env` in the repository root.
 2. Set `OPENAI_API_KEY` to your private OpenAI API key.
-3. Optionally set `OPENAI_MODEL` (the example uses `gpt-4o-mini`).
+3. Optionally set `OPENAI_MODEL` (the example uses `gpt-4o-mini`). AI speech is available when the same key supports audio generation; set `AI_TTS_ENABLED=false` to disable it.
 4. Restart `npm run dev`.
 
 ```dotenv
@@ -115,13 +119,13 @@ The project is configured for Vercel, with serverless handlers in `api/` and the
 ```text
 src/
   App.jsx                  Application navigation and interview state
-  screens/                 Dashboard, setup, interview, feedback, summary,
+  screens/                 Welcome, dashboard, setup, interview, feedback, summary,
                            questions, progress, résumé, job match, settings
   data/                    Interviewers, roles, and question data
   api/evaluationClient.js  AI request adapter and local fallback
   utils/feedback.js        Local evaluation and session summaries
   i18n/                    English/Hebrew translations and RTL support
-  hooks/                   Shared application hooks
+  hooks/                   Shared application hooks, including question-audio playback
   styles/                  Screen and application styles
 server/
   core.js                  Shared API request handlers
@@ -145,6 +149,8 @@ Before releasing changes, verify:
 
 - [ ] `npm run lint` and `npm run build` pass.
 - [ ] A complete interview works in English and Hebrew, including RTL.
+- [ ] Listen to question and Listen to rephrased question play the correct texts; the AI/device voice status is truthful and Hebrew pronunciation is evaluated on real devices.
+- [ ] The welcome page opens on fresh entry, saved-interview resume is deliberate, and the dashboard displays real progress rather than placeholder figures.
 - [ ] All three interviewer portraits load correctly.
 - [ ] Feedback clearly indicates whether it came from AI or local practice logic.
 - [ ] Summary statistics match the completed session.
