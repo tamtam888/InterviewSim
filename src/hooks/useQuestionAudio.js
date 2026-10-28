@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
  */
 export function useQuestionAudio({ lang, questionText }) {
   const [speaking, setSpeaking] = useState(false);
+  const [voiceEngine, setVoiceEngine] = useState("idle");
   const audioRef = useRef(null);
   const abortRef = useRef(null);
   const urlRef = useRef(null);
@@ -23,6 +24,7 @@ export function useQuestionAudio({ lang, questionText }) {
     urlRef.current = null;
     window.speechSynthesis?.cancel();
     setSpeaking(false);
+    setVoiceEngine("idle");
   }, []);
 
   useEffect(() => () => {
@@ -38,6 +40,7 @@ export function useQuestionAudio({ lang, questionText }) {
       setSpeaking(false);
       return;
     }
+    setVoiceEngine("device");
     const synth = window.speechSynthesis;
     synth.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
@@ -72,6 +75,7 @@ export function useQuestionAudio({ lang, questionText }) {
       if (!response.ok) throw new Error("speech_unavailable");
       const blob = await response.blob();
       if (currentId !== playIdRef.current) return;
+      setVoiceEngine("ai");
       const url = URL.createObjectURL(blob);
       urlRef.current = url;
       const audio = new Audio(url);
@@ -87,5 +91,5 @@ export function useQuestionAudio({ lang, questionText }) {
     }
   }, [lang, questionText, speakWithBrowser, stopSpeech]);
 
-  return { canSpeak, speaking, speak, stopSpeech };
+  return { canSpeak, speaking, speak, stopSpeech, voiceEngine };
 }
