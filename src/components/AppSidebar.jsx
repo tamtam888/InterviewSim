@@ -1,5 +1,6 @@
 import {
   LayoutDashboard,
+  House,
   PlayCircle,
   Library,
   TrendingUp,
@@ -16,8 +17,9 @@ import { useAuth } from "../hooks/useAuth";
 import "../styles/AppSidebar.css";
 
 const NAV_ITEMS = [
-  { id: "dashboard",    icon: LayoutDashboard, labelKey: "navDashboard" },
-  { id: "practice",    icon: PlayCircle,       labelKey: "startNewInterview" },
+  { id: "welcome",     icon: House,           labelKey: "navHome" },
+  { id: "practice",    icon: PlayCircle,     labelKey: "startNewInterview" },
+  { id: "dashboard",   icon: LayoutDashboard, labelKey: "navDashboard" },
   { id: "questionBank", icon: Library,         labelKey: "navQuestionBank" },
   { id: "progress",    icon: TrendingUp,       labelKey: "navProgress" },
   { id: "resume",      icon: FileText,         labelKey: "navResume" },
