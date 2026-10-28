@@ -101,6 +101,16 @@
 .accent-blue:hover   { border-inline-start-color: var(--blue); }
 .accent-green:hover  { border-inline-start-color: var(--green); }
 
+/* Informational interviewer cards: no click affordance or selected state. */
+.interviewer-card--display {
+  cursor: default;
+  transition: none;
+}
+.interviewer-card--display:hover {
+  background: var(--surface);
+  border-inline-start-color: transparent;
+}
+
 /* Interviewer card head: avatar + identity inline */
 .interviewer-card-head {
   display: flex;
@@ -265,4 +275,14 @@
 .interviewer-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:1}
 .interviewer-avatar-fallback{position:relative;z-index:0}
 .interviewer-card:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
-@media(max-width:560px){.interviewer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.interviewer-card{padding:12px}.interviewer-card-head{flex-direction:column;align-items:flex-start}.interviewer-avatar{width:70px;height:70px}}
+@media(max-width:560px){
+  .interviewer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .interviewer-grid:has(> .interviewer-card:nth-child(3):last-child) > .interviewer-card:last-child{
+    grid-column:1 / -1;
+    width:calc(50% - 5px);
+    justify-self:center;
+  }
+  .interviewer-card{padding:12px}
+  .interviewer-card-head{flex-direction:column;align-items:flex-start}
+  .interviewer-avatar{width:70px;height:70px}
+}
