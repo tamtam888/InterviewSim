@@ -6,6 +6,7 @@
  * Dev:  Vite dev server proxies /api/* here (see vite.config.js).
  */
 import express from "express";
+import clarifyQuestion from "../api/clarify-question.js";
 import { rateLimit } from "express-rate-limit";
 import { hasApiKey } from "./openai.js";
 import {
@@ -55,6 +56,7 @@ const sessionsLimiter = rateLimit({
 const PORT = process.env.PORT || 3001;
 
 app.get("/api/health", handleHealth);
+app.post("/api/clarify-question", generateLimiter, clarifyQuestion);
 app.post("/api/evaluate-answer", evaluateLimiter, handleEvaluateAnswer);
 app.post("/api/summarize-session", summarizeLimiter, handleSummarizeSession);
 app.post("/api/analyze-match", matchLimiter, handleAnalyzeMatch);
