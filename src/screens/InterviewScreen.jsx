@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Mic, MicOff, Send, SkipForward, Lightbulb, Flag, Loader2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Mic, MicOff, Send, SkipForward, Flag, Loader2, Volume2, VolumeX, MessageCircleQuestion } from "lucide-react";
 import { useLanguage } from "../i18n/useLanguage";
 import { getRole } from "../data/roles";
 import { getInterviewerForQuestion } from "../data/interviewers";
@@ -26,6 +26,78 @@ export default function InterviewScreen({
   const interviewer = getInterviewerForQuestion(question?.type, interviewType);
   const [answer, setAnswer] = useState("");
   const [confirmEnd, setConfirmEnd] = useState(false);
+  const [clarification, setClarification] = useState("");
+  const [clarifying, setClarifying] = useState(false);
+  const [clarificationError, setClarificationError] = useState("");
+  const [speaking, setSpeaking] = useState(false);
+  const speechRef = useRef(null);
+  const clarificationCount = useRef(0);
+  const clarificationRequest = useRef(null);
+  const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
+
+  useEffect(() => {
+    return () => {
+      clarificationRequest.current?.abort();
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const speak = (text) => {
+    if (!canSpeak) return;
+    stop();
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang === "he" ? "he-IL" : "en-US";
+    utterance.rate = 0.94;
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
+    speechRef.current = utterance;
+    setSpeaking(true);
+    window.speechSynthesis.speak(utterance);
+  };
+  const stopSpeech = () => {
+    window.speechSynthesis?.cancel();
+    setSpeaking(false);
+  };
+  const clarifyQuestion = async () => {
+    if (clarifying || clarificationCount.current >= 2) return;
+    stopSpeech();
+    clarificationCount.current += 1;
+    setClarifying(true);
+    setClarificationError("");
+    const controller = new AbortController();
+    clarificationRequest.current = controller;
+    try {
+      const res = await fetch("/api/clarify-question", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: question.text[lang],
+          lang,
+          role: role?.name?.[lang] || "General",
+        }),
+        signal: controller.signal,
+      });
+      if (!res.ok) throw new Error("clarification_unavailable");
+      const data = await res.json();
+      if (typeof data.clarification !== "string" || !data.clarification.trim()) {
+        throw new Error("empty_clarification");
+      }
+      setClarification(data.clarification.trim());
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        // Preserve the interview when the AI service is unavailable.
+        setClarification(question.text[lang]);
+        setClarificationError(lang === "he"
+          ? "לא ניתן לנסח מחדש כרגע. אפשר להאזין שוב לשאלה המקורית."
+          : "Rephrasing is unavailable. You can listen to the original question again.");
+      }
+    } finally {
+      setClarifying(false);
+    }
+  };
 
   const { supported, listening, toggle, stop } = useSpeechInput({
     lang,
@@ -42,6 +114,7 @@ export default function InterviewScreen({
   const canSubmit = answer.trim().length > 0 && !evaluating;
 
   const handleSubmit = () => {
+    stopSpeech();
     stop();
     onSubmit(answer.trim());
   };
@@ -120,14 +193,25 @@ export default function InterviewScreen({
 
         <h1 className="question-text">{question.text[lang]}</h1>
 
-        {question.tip?.[lang] && (
-          <p className="question-tip">
-            <Lightbulb size={16} aria-hidden="true" />
-            <span>
-              <strong>{t("tipLabel")}:</strong> {question.tip[lang]}
-            </span>
+        <div className="interview-question-tools">
+          {canSpeak && (
+            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak(clarification || question.text[lang])}>
+              {speaking ? <VolumeX size={16} /> : <Volume2 size={16} />}
+              {speaking ? (lang === "he" ? "עצירת ההשמעה" : "Stop audio") : (lang === "he" ? "השמיעו שאלה" : "Listen to question")}
+            </button>
+          )}
+          <button type="button" className="btn btn-secondary" onClick={clarifyQuestion}
+            disabled={clarifying || clarificationCount.current >= 2}>
+            {clarifying ? <Loader2 size={16} className="spin" /> : <MessageCircleQuestion size={16} />}
+            {clarifying ? (lang === "he" ? "מנסח מחדש..." : "Rephrasing...") : (lang === "he" ? "לא הבנתי — הסבירו שוב" : "Please rephrase")}
+          </button>
+        </div>
+        {clarification && (
+          <p className="interview-clarification" role="status">
+            <strong>{lang === "he" ? "ניסוח נוסף של השאלה:" : "Question rephrased:"}</strong> {clarification}
           </p>
         )}
+        {clarificationError && <p className="interview-clarification-notice" role="status">{clarificationError}</p>}
       </section>
 
       <section className="answer-area">
