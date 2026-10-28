@@ -29,15 +29,14 @@ import GeneratingScreen from "./screens/GeneratingScreen";
 import DevAuthBanner from "./components/DevAuthBanner";
 import "./styles/App.css";
 
-// Pages that survive a browser refresh. Practice flow is excluded:
-// mid-interview refresh always returns to dashboard.
+// Navigation destinations. A fresh visit always starts at the Welcome page.
 const PERSIST_PAGE_KEY = "interviewsim.lastPage";
 const NAVIGABLE_PAGES = new Set([
   "welcome", "dashboard", "questionBank", "progress", "resume", "jobMatch", "settings",
 ]);
 
 function getPersistedPage() {
-  // Open on the Welcome page; an active interview is restored separately.
+  // Open on Welcome; a saved interview is resumed only when requested.
   return "welcome";
 }
 
@@ -68,29 +67,6 @@ function saveSummarySession(state) {
       _savedAt:        Date.now(),
     }));
   } catch { /* storage full / unavailable */ }
-}
-
-function loadSummarySession() {
-  try {
-    const raw = localStorage.getItem(SUMMARY_KEY);
-    if (!raw) return null;
-    const s = JSON.parse(raw);
-    if (
-      s.screen !== "summary" ||
-      s.page   !== "practice" ||
-      !s.roleId ||
-      !s.interviewType ||
-      !Array.isArray(s.results) ||
-      s.results.length === 0
-    ) {
-      localStorage.removeItem(SUMMARY_KEY);
-      return null;
-    }
-    return s;
-  } catch {
-    localStorage.removeItem(SUMMARY_KEY);
-    return null;
-  }
 }
 
 function clearSummarySession() {
@@ -324,7 +300,7 @@ function AppContent() {
     }
   }, [page, screen, state.roleId, state.matchContext]);
 
-  // Persist practice-flow state so browser refresh can restore the correct screen.
+  // Persist practice state without forcing a saved session on initial load.
   // interview/feedback  → activeSession (live progress, current question index)
   // summary             → summarySession (completed results)
   // anything else       → clear both (navigated away / flow ended)
