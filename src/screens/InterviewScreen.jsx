@@ -23,7 +23,7 @@ export default function InterviewScreen({
 }) {
   const { t, lang } = useLanguage();
   const role = getRole(roleId);
-  const interviewer = getInterviewerForQuestion(question.type, interviewType);
+  const interviewer = getInterviewerForQuestion(question?.type, interviewType);
   const [answer, setAnswer] = useState("");
   const [confirmEnd, setConfirmEnd] = useState(false);
 
