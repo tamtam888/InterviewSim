@@ -12,6 +12,7 @@ import AppHeader from "./components/AppHeader";
 import AppSidebar from "./components/AppSidebar";
 import AppFooter from "./components/AppFooter";
 import HomeScreen from "./screens/HomeScreen";
+import WelcomeScreen from "./screens/WelcomeScreen";
 import RoleSelectScreen from "./screens/RoleSelectScreen";
 import SetupScreen from "./screens/SetupScreen";
 import InterviewScreen from "./screens/InterviewScreen";
@@ -32,15 +33,16 @@ import "./styles/App.css";
 // mid-interview refresh always returns to dashboard.
 const PERSIST_PAGE_KEY = "interviewsim.lastPage";
 const NAVIGABLE_PAGES = new Set([
-  "dashboard", "questionBank", "progress", "resume", "jobMatch", "settings",
+  "welcome", "dashboard", "questionBank", "progress", "resume", "jobMatch", "settings",
 ]);
 
 function getPersistedPage() {
   try {
     const p = localStorage.getItem(PERSIST_PAGE_KEY);
-    return p && NAVIGABLE_PAGES.has(p) ? p : "dashboard";
+    // Always show the introduction when opening the app; practice restoration is handled above.
+    return "welcome";
   } catch {
-    return "dashboard";
+    return "welcome";
   }
 }
 
@@ -102,7 +104,7 @@ function clearSummarySession() {
 
 // BASE_STATE: always dashboard — used by GO_HOME and any hard-reset action.
 const BASE_STATE = {
-  page: "dashboard",
+  page: "welcome",
   screen: "home", // practice flow: role | setup | interview | feedback | summary
   sessionId: null,
   roleId: null,
@@ -322,8 +324,8 @@ function AppContent() {
       if (NAVIGABLE_PAGES.has(page)) {
         localStorage.setItem(PERSIST_PAGE_KEY, page);
       } else {
-        // In practice flow — write "dashboard" so a refresh returns home.
-        localStorage.setItem(PERSIST_PAGE_KEY, "dashboard");
+        // Keep the focused landing page as the destination after practice.
+        localStorage.setItem(PERSIST_PAGE_KEY, "welcome");
       }
     } catch { /* ignore */ }
   }, [page]);
@@ -486,7 +488,7 @@ function AppContent() {
   return (
     <>
       <AppHeader
-        showBack={page !== "dashboard"}
+        showBack={page !== "welcome"}
         onBack={() => {
           if (page === "practice") {
             if (screen === "setup") {
@@ -505,8 +507,8 @@ function AppContent() {
               dispatch({ type: "GO_HOME" });
             }
           } else {
-            // Non-practice navigable pages → back to dashboard
-            dispatch({ type: "NAVIGATE", page: "dashboard" });
+            // Non-practice pages return to the welcoming start screen.
+            dispatch({ type: "NAVIGATE", page: "welcome" });
           }
         }}
         onLogoClick={() => { cancelGeneration(); dispatch({ type: "GO_HOME" }); }}
@@ -524,6 +526,13 @@ function AppContent() {
         />
 
         <div className="app-main">
+          {page === "welcome" && (
+            <WelcomeScreen
+              onStart={startPractice}
+              onDashboard={() => navigate("dashboard")}
+              onJobMatch={() => navigate("jobMatch")}
+            />
+          )}
           {page === "dashboard" && (
             <HomeScreen
               onStart={startPractice}
