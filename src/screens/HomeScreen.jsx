@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight, ArrowLeft, Play, Target, TrendingUp, Plus,
-  Clock, Users, Star,
+  Clock, Star,
 } from "lucide-react";
 import { useLanguage } from "../i18n/useLanguage";
 import { useAuth } from "../hooks/useAuth";
-import { ROLES, getRole } from "../data/roles";
+import { getRole } from "../data/roles";
 import { getHistory, computeDashboard } from "../utils/practiceHistory";
 import { fetchSessions, rowToHistoryEntry } from "../lib/sessionHistory";
-import RoleIcon from "../components/RoleIcon";
 import "../styles/HomeScreen.css";
 
 const TYPE_LABEL_KEYS = {
@@ -414,7 +413,7 @@ function FirstRun({ t, onStart }) {
 }
 
 /* ─── Home Screen ─── */
-export default function HomeScreen({ onStart, onSelectRole, onQuickStart }) {
+export default function HomeScreen({ onStart, onQuickStart }) {
   const { t, lang, isRTL } = useLanguage();
   const { user, loading } = useAuth();
   const [history, setHistory] = useState(null);
@@ -490,22 +489,7 @@ export default function HomeScreen({ onStart, onSelectRole, onQuickStart }) {
         <FirstRun t={t} onStart={onStart} />
       )}
 
-      <section className="ds-section-card dash-roles">
-        <h2 className="ds-section-label"><Users size={13} aria-hidden="true" />{t("practiceByRole")}</h2>
-        <div className="dash-role-chips">
-          {ROLES.map((role) => (
-            <button
-              key={role.id}
-              type="button"
-              className="dash-role-chip"
-              onClick={() => onSelectRole(role.id)}
-            >
-              <RoleIcon roleId={role.id} size={16} aria-hidden="true" />
-              {role.name[lang]}
-            </button>
-          ))}
-        </div>
-      </section>
+
     </main>
   );
 }

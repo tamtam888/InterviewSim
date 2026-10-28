@@ -327,6 +327,7 @@ export const STRINGS = {
   statAnsweredNote: { en: "Great job!", he: "כל הכבוד!" },
 
   // Navigation
+  navHome: { en: "Home", he: "עמוד הבית" },
   navDashboard: { en: "Dashboard", he: "לוח בקרה" },
   navQuestionBank: { en: "Question bank", he: "מאגר שאלות" },
   navProgress: { en: "Progress", he: "התקדמות" },
