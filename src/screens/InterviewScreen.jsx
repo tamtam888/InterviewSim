@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Mic, MicOff, Send, SkipForward, Lightbulb, Flag, Loader2 } from "lucide-react";
 import { useLanguage } from "../i18n/useLanguage";
 import { getRole } from "../data/roles";
-import { getInterviewer } from "../data/interviewers";
+import { getInterviewerForQuestion } from "../data/interviewers";
 import { useSpeechInput } from "../hooks/useSpeechInput";
 import "../styles/InterviewScreen.css";
 
@@ -12,7 +12,7 @@ export default function InterviewScreen({
   normalQCount = 1,
   originalTotal = 1,
   roleId,
-  interviewerId,
+  interviewType,
   focusAreas = null,
   matchScore = null,
   focusAreasFallback = null,
@@ -23,7 +23,7 @@ export default function InterviewScreen({
 }) {
   const { t, lang } = useLanguage();
   const role = getRole(roleId);
-  const interviewer = getInterviewer(interviewerId);
+  const interviewer = getInterviewerForQuestion(question?.type, interviewType);
   const [answer, setAnswer] = useState("");
   const [confirmEnd, setConfirmEnd] = useState(false);
 
