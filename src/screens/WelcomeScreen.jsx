@@ -2,7 +2,7 @@ import { ArrowRight, ArrowLeft, AudioLines, ChartNoAxesCombined, Mic2, MessageSq
 import { useLanguage } from "../i18n/useLanguage";
 import "../styles/WelcomeScreen.css";
 
-export default function WelcomeScreen({ onStart, onDashboard, onJobMatch }) {
+export default function WelcomeScreen({ onStart, onDashboard, onJobMatch, hasSavedInterview = false, onResume }) {
   const { lang, isRTL } = useLanguage();
   const Arrow = isRTL ? ArrowLeft : ArrowRight;
   const he = lang === "he";
@@ -26,6 +26,12 @@ export default function WelcomeScreen({ onStart, onDashboard, onJobMatch }) {
               {he ? "ראיון לפי משרה" : "Practice for a job"}
             </button>
           </div>
+          {hasSavedInterview && (
+            <button type="button" className="welcome-resume" onClick={onResume}>
+              <Arrow size={16} aria-hidden="true" />
+              {he ? "המשך הראיון השמור" : "Resume saved interview"}
+            </button>
+          )}
           <div className="welcome-reassurance"><ShieldCheck size={16} aria-hidden="true" />{he ? "אפשר להתחיל לתרגל גם ללא חשבון" : "Start practicing without an account"}</div>
         </div>
         <div className="welcome-demo" aria-label={he ? "המחשה של תהליך הראיון" : "Interview flow preview"}>
