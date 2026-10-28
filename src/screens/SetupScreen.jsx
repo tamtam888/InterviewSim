@@ -183,7 +183,7 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
         <section className="setup-section">
           <h2 className="setup-section-title">
             <span className="setup-section-num">05</span>
-            {t("chooseInterviewer")}
+            {t(effectiveType === "mixed" ? "meetInterviewerPanel" : "assignedInterviewer")}
           </h2>
           <p className="setup-section-note">
             {lang === "he"
@@ -194,11 +194,11 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
                 ? "For mixed interviews, the interviewer changes automatically to match each question."
                 : "The interviewer is assigned automatically based on the interview type."}
           </p>
-          <div className="interviewer-grid" aria-label={t("chooseInterviewer")}>
+          <div className="interviewer-grid" aria-label={t(effectiveType === "mixed" ? "meetInterviewerPanel" : "assignedInterviewer")}>
             {displayedInterviewers.map((person) => (
               <div
                 key={person.id}
-                className={`interviewer-card accent-${person.accent} is-selected`}
+                className={`interviewer-card interviewer-card--display accent-${person.accent}`}
               >
                 <span className="interviewer-card-head">
                   <span className="interviewer-avatar" aria-hidden="true">
