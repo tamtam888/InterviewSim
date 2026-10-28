@@ -536,7 +536,6 @@ function AppContent() {
           {page === "dashboard" && (
             <HomeScreen
               onStart={startPractice}
-              onSelectRole={(roleId) => dispatch({ type: "SELECT_ROLE", roleId })}
               onQuickStart={async ({ roleId, interviewType, questionCount, interviewerId, experienceLevel, difficulty }) => {
                 if (generatingMode) return; // ignore double-click while generation is running
                 dispatch({ type: "SELECT_ROLE", roleId });
