@@ -35,7 +35,9 @@ function apiPlugin() {
       const mkLimit = (max) => rateLimit({ windowMs: 60000, max })
 
       const { default: clarifyQuestion } = await import('./api/clarify-question.js')
+      const { default: questionSpeech } = await import('./api/question-speech.js')
       app.post('/api/clarify-question', mkLimit(15), clarifyQuestion)
+      app.post('/api/question-speech', mkLimit(10), questionSpeech)
       app.get('/api/health',              handleHealth)
       app.post('/api/evaluate-answer',    mkLimit(60),  handleEvaluateAnswer)
       app.post('/api/summarize-session',  mkLimit(30),  handleSummarizeSession)
