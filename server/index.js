@@ -7,6 +7,7 @@
  */
 import express from "express";
 import clarifyQuestion from "../api/clarify-question.js";
+import questionSpeech from "../api/question-speech.js";
 import { rateLimit } from "express-rate-limit";
 import { hasApiKey } from "./openai.js";
 import {
@@ -57,6 +58,7 @@ const PORT = process.env.PORT || 3001;
 
 app.get("/api/health", handleHealth);
 app.post("/api/clarify-question", generateLimiter, clarifyQuestion);
+app.post("/api/question-speech", generateLimiter, questionSpeech);
 app.post("/api/evaluate-answer", evaluateLimiter, handleEvaluateAnswer);
 app.post("/api/summarize-session", summarizeLimiter, handleSummarizeSession);
 app.post("/api/analyze-match", matchLimiter, handleAnalyzeMatch);
