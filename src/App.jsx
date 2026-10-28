@@ -15,6 +15,7 @@ import HomeScreen from "./screens/HomeScreen";
 import RoleSelectScreen from "./screens/RoleSelectScreen";
 import SetupScreen from "./screens/SetupScreen";
 import InterviewScreen from "./screens/InterviewScreen";
+import { getInterviewerIdForType } from "./data/interviewers";
 import FeedbackScreen from "./screens/FeedbackScreen";
 import SummaryScreen from "./screens/SummaryScreen";
 import QuestionBankScreen from "./screens/QuestionBankScreen";
@@ -362,7 +363,9 @@ function AppContent() {
   const evaluationContext = {
     roleId: state.roleId,
     interviewType: state.interviewType,
-    interviewerId: state.interviewerId,
+    interviewerId: getInterviewerIdForType(state.interviewType === "mixed"
+      ? state.questions[state.currentIndex]?.type
+      : state.interviewType),
     questionNumber: state.currentIndex + 1,
     totalQuestions: state.questions.length,
   };
