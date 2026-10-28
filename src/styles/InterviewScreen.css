@@ -328,3 +328,35 @@
 .interview-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;z-index:1}
 .interview-avatar-fallback{position:relative;z-index:0}
 @media(max-width:600px){.interview-avatar{width:52px;height:52px}}
+
+/* Optional spoken interview and no-hints question clarification */
+.interview-question-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  width: 100%;
+}
+.interview-question-tools .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: normal;
+  text-align: center;
+}
+.interview-clarification {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  line-height: 1.7;
+}
+.interview-clarification-notice {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+@media(max-width:520px) {
+  .interview-question-tools { flex-direction: column; }
+  .interview-question-tools .btn { width: 100%; justify-content: center; }
+}
