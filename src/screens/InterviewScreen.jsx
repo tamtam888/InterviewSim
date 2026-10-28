@@ -30,8 +30,8 @@ export default function InterviewScreen({
   const [clarifying, setClarifying] = useState(false);
   const [clarificationError, setClarificationError] = useState("");
   const [speaking, setSpeaking] = useState(false);
-  const speechRef = useRef(null);
   const clarificationCount = useRef(0);
+  const [clarificationUsed, setClarificationUsed] = useState(0);
   const clarificationRequest = useRef(null);
   const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
 
@@ -53,7 +53,6 @@ export default function InterviewScreen({
     utterance.rate = 0.94;
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => setSpeaking(false);
-    speechRef.current = utterance;
     setSpeaking(true);
     window.speechSynthesis.speak(utterance);
   };
@@ -66,6 +65,7 @@ export default function InterviewScreen({
     stop();
     stopSpeech();
     clarificationCount.current += 1;
+    setClarificationUsed(clarificationCount.current);
     setClarifying(true);
     setClarificationError("");
     const controller = new AbortController();
@@ -209,7 +209,7 @@ export default function InterviewScreen({
             </button>
           )}
           <button type="button" className="btn btn-secondary" onClick={clarifyQuestion}
-            disabled={clarifying || clarificationCount.current >= 2}>
+            disabled={clarifying || clarificationUsed >= 2}>
             {clarifying ? <Loader2 size={16} className="spin" /> : <MessageCircleQuestion size={16} />}
             {clarifying ? (lang === "he" ? "מנסח מחדש..." : "Rephrasing...") : (lang === "he" ? "לא הבנתי — הסבירו שוב" : "Please rephrase")}
           </button>
