@@ -4,6 +4,7 @@ import { useLanguage } from "../i18n/useLanguage";
 import { getRole } from "../data/roles";
 import { getInterviewerForQuestion } from "../data/interviewers";
 import { useSpeechInput } from "../hooks/useSpeechInput";
+import { useQuestionAudio } from "../hooks/useQuestionAudio";
 import "../styles/InterviewScreen.css";
 
 export default function InterviewScreen({
@@ -29,11 +30,11 @@ export default function InterviewScreen({
   const [clarification, setClarification] = useState("");
   const [clarifying, setClarifying] = useState(false);
   const [clarificationError, setClarificationError] = useState("");
-  const [speaking, setSpeaking] = useState(false);
+  const displayedQuestion = question?.text?.[lang] || question?.text?.en || "";
+  const { canSpeak, speaking, speak, stopSpeech } = useQuestionAudio({ lang, questionText: displayedQuestion });
   const clarificationCount = useRef(0);
   const [clarificationUsed, setClarificationUsed] = useState(0);
   const clarificationRequest = useRef(null);
-  const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
 
   // The displayed text is the single source of truth for playback.
   const displayedQuestion = question?.text?.[lang] || question?.text?.en || "";
@@ -47,40 +48,12 @@ export default function InterviewScreen({
     setClarification("");
     setClarificationError("");
     setClarifying(false);
-    setSpeaking(false);
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
   }, [question?.id, displayedQuestion, lang]);
 
   useEffect(() => () => {
     clarificationRequest.current?.abort();
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
   }, []);
 
-  const speak = (text) => {
-    if (!canSpeak) return;
-    stop();
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const speechLanguage = lang === "he" ? "he-IL" : "en-US";
-    utterance.lang = speechLanguage;
-    const availableVoices = window.speechSynthesis.getVoices();
-    const matchingVoice = availableVoices.find((voice) => voice.lang.toLowerCase() === speechLanguage.toLowerCase())
-      || availableVoices.find((voice) => voice.lang.toLowerCase().startsWith(lang.toLowerCase() + "-"));
-    if (matchingVoice) utterance.voice = matchingVoice;
-    utterance.rate = 0.94;
-    utterance.onend = () => setSpeaking(false);
-    utterance.onerror = () => setSpeaking(false);
-    setSpeaking(true);
-    window.speechSynthesis.speak(utterance);
-  };
-  const stopSpeech = () => {
-    window.speechSynthesis?.cancel();
-    setSpeaking(false);
-  };
   const clarifyQuestion = async () => {
     if (clarifying || clarificationCount.current >= 2) return;
     stop();
@@ -224,7 +197,7 @@ export default function InterviewScreen({
 
         <div className="interview-question-tools">
           {canSpeak && (
-            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak(displayedQuestion)}>
+            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak()}>
               {speaking ? <VolumeX size={16} /> : <Volume2 size={16} />}
               {speaking ? (lang === "he" ? "עצירת ההשמעה" : "Stop audio") : (lang === "he" ? "השמיעו שאלה" : "Listen to question")}
             </button>
