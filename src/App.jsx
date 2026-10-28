@@ -29,15 +29,14 @@ import GeneratingScreen from "./screens/GeneratingScreen";
 import DevAuthBanner from "./components/DevAuthBanner";
 import "./styles/App.css";
 
-// Pages that survive a browser refresh. Practice flow is excluded:
-// mid-interview refresh always returns to dashboard.
+// Navigation destinations. A fresh visit always starts at the Welcome page.
 const PERSIST_PAGE_KEY = "interviewsim.lastPage";
 const NAVIGABLE_PAGES = new Set([
   "welcome", "dashboard", "questionBank", "progress", "resume", "jobMatch", "settings",
 ]);
 
 function getPersistedPage() {
-  // Open on the Welcome page; an active interview is restored separately.
+  // Open on Welcome; a saved interview is resumed only when requested.
   return "welcome";
 }
 
@@ -68,29 +67,6 @@ function saveSummarySession(state) {
       _savedAt:        Date.now(),
     }));
   } catch { /* storage full / unavailable */ }
-}
-
-function loadSummarySession() {
-  try {
-    const raw = localStorage.getItem(SUMMARY_KEY);
-    if (!raw) return null;
-    const s = JSON.parse(raw);
-    if (
-      s.screen !== "summary" ||
-      s.page   !== "practice" ||
-      !s.roleId ||
-      !s.interviewType ||
-      !Array.isArray(s.results) ||
-      s.results.length === 0
-    ) {
-      localStorage.removeItem(SUMMARY_KEY);
-      return null;
-    }
-    return s;
-  } catch {
-    localStorage.removeItem(SUMMARY_KEY);
-    return null;
-  }
 }
 
 function clearSummarySession() {
@@ -128,6 +104,9 @@ function reducer(state, action) {
 
     case "GO_HOME":
       return { ...BASE_STATE };
+
+    case "RESUME_SAVED":
+      return { ...BASE_STATE, ...action.session, matchContext: null };
 
     case "GO_ROLE_SELECT":
       // Preserve matchContext so a tailored-interview flow survives the navigation
@@ -272,27 +251,11 @@ function reducer(state, action) {
 }
 
 function AppContent() {
-  // Lazy initializer: try to restore an in-progress interview from localStorage.
-  // Falls back to the last navigable page, then dashboard.
-  const [state, dispatch] = useReducer(reducer, undefined, () => {
-    const active = loadActiveSession();
-    if (active) {
-      return {
-        ...BASE_STATE,
-        ...active,
-        matchContext: null, // pre-interview context is not persisted
-      };
-    }
-    const summary = loadSummarySession();
-    if (summary) {
-      return {
-        ...BASE_STATE,
-        ...summary,
-        matchContext: null,
-      };
-    }
-    return { ...BASE_STATE, page: getPersistedPage() };
-  });
+  // Always open on Home. Saved interviews remain available through an
+  // explicit Resume action; users should never land unexpectedly mid-question.
+  const [state, dispatch] = useReducer(reducer, undefined, () => ({
+    ...BASE_STATE, page: getPersistedPage(),
+  }));
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
@@ -337,7 +300,7 @@ function AppContent() {
     }
   }, [page, screen, state.roleId, state.matchContext]);
 
-  // Persist practice-flow state so browser refresh can restore the correct screen.
+  // Persist practice state without forcing a saved session on initial load.
   // interview/feedback  → activeSession (live progress, current question index)
   // summary             → summarySession (completed results)
   // anything else       → clear both (navigated away / flow ended)
@@ -348,10 +311,12 @@ function AppContent() {
     } else if (page === "practice" && screen === "summary") {
       clearActiveSession();
       saveSummarySession(state);
-    } else {
+    } else if (page !== "welcome") {
+      // Deliberate navigation to another tool closes the paused interview.
       clearActiveSession();
       clearSummarySession();
     }
+    // Home preserves an in-progress session so it can be resumed explicitly.
   }, [state]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const newSessionId = () =>
@@ -526,6 +491,11 @@ function AppContent() {
               onStart={startPractice}
               onDashboard={() => navigate("dashboard")}
               onJobMatch={() => navigate("jobMatch")}
+              hasSavedInterview={Boolean(loadActiveSession())}
+              onResume={() => {
+                const saved = loadActiveSession();
+                if (saved) dispatch({ type: "RESUME_SAVED", session: saved });
+              }}
             />
           )}
           {page === "dashboard" && (

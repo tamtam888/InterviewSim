@@ -194,7 +194,7 @@ export default function InterviewScreen({
 
         <div className="interview-question-tools">
           {canSpeak && (
-            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak()}>
+            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak(displayedQuestion)}>
               {speaking ? <VolumeX size={16} /> : <Volume2 size={16} />}
               {speaking ? (lang === "he" ? "עצירת ההשמעה" : "Stop audio") : (lang === "he" ? "השמיעו שאלה" : "Listen to question")}
             </button>
@@ -207,9 +207,13 @@ export default function InterviewScreen({
           </button>
         </div>
         {clarification && (
-          <p className="interview-clarification" role="status">
-            <strong>{lang === "he" ? "ניסוח נוסף של השאלה:" : "Question rephrased:"}</strong> {clarification}
-          </p>
+          <div className="interview-clarification" role="status">
+            <p><strong>{lang === "he" ? "ניסוח נוסף של השאלה:" : "Question rephrased:"}</strong> {clarification}</p>
+            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak(clarification)}>
+              <Volume2 size={16} aria-hidden="true" />
+              {lang === "he" ? "השמיעו את הניסוח החדש" : "Listen to rephrased question"}
+            </button>
+          </div>
         )}
         {clarificationError && <p className="interview-clarification-notice" role="status">{clarificationError}</p>}
       </section>
