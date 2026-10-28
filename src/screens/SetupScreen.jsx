@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowRight, ArrowLeft, Target, Loader2 } from "lucide-react";
 import { useLanguage } from "../i18n/useLanguage";
 import { getRole, INTERVIEW_TYPES, SESSION_LENGTHS, EXPERIENCE_LEVELS, DIFFICULTIES } from "../data/roles";
-import { INTERVIEWERS } from "../data/interviewers";
+import { INTERVIEWERS, getInterviewerIdForType } from "../data/interviewers";
 import RoleIcon from "../components/RoleIcon";
 import "../styles/SetupScreen.css";
 
@@ -13,7 +13,7 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
   const [lengthId, setLengthId] = useState("standard");
   const [experienceLevel, setExperienceLevel] = useState("junior");
   const [difficulty, setDifficulty] = useState("mixed");
-  const [interviewerId, setInterviewerId] = useState("sarah");
+  // Interviewers are assigned by professional scope, never chosen arbitrarily.
   const [starting, setStarting] = useState(false);
   const StartArrow = isRTL ? ArrowLeft : ArrowRight;
 
@@ -25,6 +25,11 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
   //   type -> "technical" (all questions target focus areas, which are always technical)
   //   experienceLevel, difficulty, interviewerId -> keep state defaults (junior/mixed/sarah)
   const effectiveType = isTailored ? "technical" : type;
+  const interviewerId = getInterviewerIdForType(effectiveType);
+
+  const displayedInterviewers = effectiveType === "mixed"
+    ? INTERVIEWERS
+    : INTERVIEWERS.filter((person) => person.id === interviewerId);
 
   const selectedLength = SESSION_LENGTHS.find((l) => l.id === lengthId);
   const selectedType    = INTERVIEW_TYPES.find((it) => it.id === type);
@@ -179,18 +184,20 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
             <span className="setup-section-num">05</span>
             {t("chooseInterviewer")}
           </h2>
-          <p className="setup-section-note">{t("interviewerNote")}</p>
-          <div className="interviewer-grid" role="radiogroup" aria-label={t("chooseInterviewer")}>
-            {INTERVIEWERS.map((person) => (
-              <button
-                type="button"
+          <p className="setup-section-note">
+            {lang === "he"
+              ? effectiveType === "mixed"
+                ? "בראיון משולב המראיין מתחלף אוטומטית לפי סוג כל שאלה."
+                : "המראיין נקבע אוטומטית לפי סוג הראיון."
+              : effectiveType === "mixed"
+                ? "For mixed interviews, the interviewer changes automatically to match each question."
+                : "The interviewer is assigned automatically based on the interview type."}
+          </p>
+          <div className="interviewer-grid" aria-label={t("chooseInterviewer")}>
+            {displayedInterviewers.map((person) => (
+              <div
                 key={person.id}
-                role="radio"
-                aria-checked={interviewerId === person.id}
-                className={`interviewer-card accent-${person.accent} ${
-                  interviewerId === person.id ? "is-selected" : ""
-                }`}
-                onClick={() => setInterviewerId(person.id)}
+                className={`interviewer-card accent-${person.accent} is-selected`}
               >
                 <span className="interviewer-card-head">
                   <span className="interviewer-avatar" aria-hidden="true">
@@ -204,8 +211,7 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
                 </span>
                 <span className="interviewer-style">{person.style[lang]}</span>
                 <span className="interviewer-focus">{person.focus[lang]}</span>
-                <span className="interviewer-vibe">{t(person.vibeKey)}</span>
-              </button>
+              </div>
             ))}
           </div>
         </section>
@@ -222,7 +228,7 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
                 {t(selectedType.labelKey)} &middot;{" "}
                 {t(selectedLevel.labelKey)} &middot;{" "}
                 {t(selectedDiff.labelKey)} &middot;{" "}
-                {selectedIvr.name[lang]}
+                {effectiveType === "mixed" ? (lang === "he" ? "צוות מראיינים" : "Interviewer panel") : selectedIvr.name[lang]}
               </>
             )}
           </span>
