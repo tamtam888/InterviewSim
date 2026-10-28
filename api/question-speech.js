@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       method: "POST",
       headers: { "Authorization": `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "gpt-4o-mini-tts-2025-12-15",
+        model: "gpt-4o-mini-tts",
         voice: "marin",
         input: text.trim(),
         response_format: "mp3",
