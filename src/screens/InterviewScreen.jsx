@@ -35,13 +35,29 @@ export default function InterviewScreen({
   const clarificationRequest = useRef(null);
   const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window;
 
+  // The displayed text is the single source of truth for playback.
+  const displayedQuestion = question?.text?.[lang] || question?.text?.en || "";
+
   useEffect(() => {
-    return () => {
-      clarificationRequest.current?.abort();
-      if (typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-      }
-    };
+    // Never carry a previous question's clarification or speech into a new question.
+    clarificationRequest.current?.abort();
+    clarificationRequest.current = null;
+    clarificationCount.current = 0;
+    setClarificationUsed(0);
+    setClarification("");
+    setClarificationError("");
+    setClarifying(false);
+    setSpeaking(false);
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  }, [question?.id, displayedQuestion, lang]);
+
+  useEffect(() => () => {
+    clarificationRequest.current?.abort();
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
   }, []);
 
   const speak = (text) => {
@@ -49,7 +65,12 @@ export default function InterviewScreen({
     stop();
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang === "he" ? "he-IL" : "en-US";
+    const speechLanguage = lang === "he" ? "he-IL" : "en-US";
+    utterance.lang = speechLanguage;
+    const availableVoices = window.speechSynthesis.getVoices();
+    const matchingVoice = availableVoices.find((voice) => voice.lang.toLowerCase() === speechLanguage.toLowerCase())
+      || availableVoices.find((voice) => voice.lang.toLowerCase().startsWith(lang.toLowerCase() + "-"));
+    if (matchingVoice) utterance.voice = matchingVoice;
     utterance.rate = 0.94;
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => setSpeaking(false);
@@ -75,7 +96,7 @@ export default function InterviewScreen({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: question.text[lang],
+          question: displayedQuestion,
           lang,
           role: role?.name?.[lang] || "General",
         }),
@@ -90,7 +111,7 @@ export default function InterviewScreen({
     } catch (err) {
       if (err.name !== "AbortError") {
         // Preserve the interview when the AI service is unavailable.
-        setClarification(question.text[lang]);
+        setClarification(displayedQuestion);
         setClarificationError(lang === "he"
           ? "לא ניתן לנסח מחדש כרגע. אפשר להאזין שוב לשאלה המקורית."
           : "Rephrasing is unavailable. You can listen to the original question again.");
@@ -199,11 +220,11 @@ export default function InterviewScreen({
           </span>
         </div>
 
-        <h1 className="question-text">{question.text[lang]}</h1>
+        <h1 className="question-text">{displayedQuestion}</h1>
 
         <div className="interview-question-tools">
           {canSpeak && (
-            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak(clarification || question.text[lang])}>
+            <button type="button" className="btn btn-secondary" onClick={() => speaking ? stopSpeech() : speak(displayedQuestion)}>
               {speaking ? <VolumeX size={16} /> : <Volume2 size={16} />}
               {speaking ? (lang === "he" ? "עצירת ההשמעה" : "Stop audio") : (lang === "he" ? "השמיעו שאלה" : "Listen to question")}
             </button>
