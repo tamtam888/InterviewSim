@@ -37,13 +37,8 @@ const NAVIGABLE_PAGES = new Set([
 ]);
 
 function getPersistedPage() {
-  try {
-    const p = localStorage.getItem(PERSIST_PAGE_KEY);
-    // Always show the introduction when opening the app; practice restoration is handled above.
-    return "welcome";
-  } catch {
-    return "welcome";
-  }
+  // Open on the Welcome page; an active interview is restored separately.
+  return "welcome";
 }
 
 /* ── Summary-screen persistence ─────────────────────────────────────────────
