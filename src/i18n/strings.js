@@ -165,6 +165,8 @@ export const STRINGS = {
 
   // Interviewer personas
   chooseInterviewer: { en: "Choose your interviewer", he: "בחרו את המראיין שלכם" },
+  meetInterviewerPanel: { en: "Meet your interview panel", he: "הכירו את צוות המראיינים" },
+  assignedInterviewer: { en: "Your assigned interviewer", he: "המראיין שהותאם לראיון שלכם" },
   interviewerNote: {
     en: "Each interviewer has a different focus and style. Scoring is the same for all.",
     he: "לכל מראיין מיקוד וסגנון שונים. הציון זהה אצל כולם.",
