@@ -129,6 +129,9 @@ function reducer(state, action) {
     case "GO_HOME":
       return { ...BASE_STATE };
 
+    case "RESUME_SAVED":
+      return { ...BASE_STATE, ...action.session, matchContext: null };
+
     case "GO_ROLE_SELECT":
       // Preserve matchContext so a tailored-interview flow survives the navigation
       return { ...BASE_STATE, page: "practice", screen: "role", matchContext: state.matchContext ?? null };
@@ -272,27 +275,11 @@ function reducer(state, action) {
 }
 
 function AppContent() {
-  // Lazy initializer: try to restore an in-progress interview from localStorage.
-  // Falls back to the last navigable page, then dashboard.
-  const [state, dispatch] = useReducer(reducer, undefined, () => {
-    const active = loadActiveSession();
-    if (active) {
-      return {
-        ...BASE_STATE,
-        ...active,
-        matchContext: null, // pre-interview context is not persisted
-      };
-    }
-    const summary = loadSummarySession();
-    if (summary) {
-      return {
-        ...BASE_STATE,
-        ...summary,
-        matchContext: null,
-      };
-    }
-    return { ...BASE_STATE, page: getPersistedPage() };
-  });
+  // Always open on Home. Saved interviews remain available through an
+  // explicit Resume action; users should never land unexpectedly mid-question.
+  const [state, dispatch] = useReducer(reducer, undefined, () => ({
+    ...BASE_STATE, page: getPersistedPage(),
+  }));
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
@@ -348,10 +335,12 @@ function AppContent() {
     } else if (page === "practice" && screen === "summary") {
       clearActiveSession();
       saveSummarySession(state);
-    } else {
+    } else if (page !== "welcome") {
+      // Deliberate navigation to another tool closes the paused interview.
       clearActiveSession();
       clearSummarySession();
     }
+    // Home preserves an in-progress session so it can be resumed explicitly.
   }, [state]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const newSessionId = () =>
@@ -526,6 +515,11 @@ function AppContent() {
               onStart={startPractice}
               onDashboard={() => navigate("dashboard")}
               onJobMatch={() => navigate("jobMatch")}
+              hasSavedInterview={Boolean(loadActiveSession())}
+              onResume={() => {
+                const saved = loadActiveSession();
+                if (saved) dispatch({ type: "RESUME_SAVED", session: saved });
+              }}
             />
           )}
           {page === "dashboard" && (
