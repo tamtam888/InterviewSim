@@ -36,9 +36,6 @@ export default function InterviewScreen({
   const [clarificationUsed, setClarificationUsed] = useState(0);
   const clarificationRequest = useRef(null);
 
-  // The displayed text is the single source of truth for playback.
-  const displayedQuestion = question?.text?.[lang] || question?.text?.en || "";
-
   useEffect(() => {
     // Never carry a previous question's clarification or speech into a new question.
     clarificationRequest.current?.abort();
@@ -202,6 +199,7 @@ export default function InterviewScreen({
               {speaking ? (lang === "he" ? "עצירת ההשמעה" : "Stop audio") : (lang === "he" ? "השמיעו שאלה" : "Listen to question")}
             </button>
           )}
+          {canSpeak && <span className="voice-unsupported">{lang === "he" ? "הקול נוצר באמצעות AI; אם אינו זמין יושמע קול המכשיר." : "AI-generated voice; device voice is used if unavailable."}</span>}
           <button type="button" className="btn btn-secondary" onClick={clarifyQuestion}
             disabled={clarifying || clarificationUsed >= 2}>
             {clarifying ? <Loader2 size={16} className="spin" /> : <MessageCircleQuestion size={16} />}
