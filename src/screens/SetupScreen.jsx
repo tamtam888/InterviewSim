@@ -23,7 +23,8 @@ export default function SetupScreen({ roleId, onStart, matchContext }) {
 
   // In tailored mode, use fixed defaults for hidden fields:
   //   type -> "technical" (all questions target focus areas, which are always technical)
-  //   experienceLevel, difficulty, interviewerId -> keep state defaults (junior/mixed/sarah)
+  //   experienceLevel and difficulty -> keep state defaults (junior/mixed)
+  //   interviewer -> Sarah, assigned automatically to technical interviews
   const effectiveType = isTailored ? "technical" : type;
   const interviewerId = getInterviewerIdForType(effectiveType);
 
