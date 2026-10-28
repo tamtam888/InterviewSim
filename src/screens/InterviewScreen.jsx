@@ -63,6 +63,7 @@ export default function InterviewScreen({
   };
   const clarifyQuestion = async () => {
     if (clarifying || clarificationCount.current >= 2) return;
+    stop();
     stopSpeech();
     clarificationCount.current += 1;
     setClarifying(true);
@@ -101,8 +102,15 @@ export default function InterviewScreen({
 
   const { supported, listening, toggle, stop } = useSpeechInput({
     lang,
-    onTranscript: (text) =>
-      setAnswer((prev) => (prev ? `${prev} ${text}` : text)),
+    onTranscript: (text) => {
+      const normalized = text.trim().toLocaleLowerCase();
+      // A spoken request for clarification is a command, not an interview answer.
+      if (/^(לא הבנתי|לא ברור לי|אפשר לחזור על השאלה|תחזור על השאלה|תחזרי על השאלה|אפשר להסביר|i don't understand|i do not understand|please repeat|repeat the question|can you rephrase|could you rephrase)/i.test(normalized)) {
+        void clarifyQuestion();
+        return;
+      }
+      setAnswer((prev) => (prev ? `${prev} ${text}` : text));
+    },
   });
 
   if (!question) return null;
