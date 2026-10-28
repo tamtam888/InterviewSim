@@ -50,3 +50,21 @@ export const INTERVIEWERS = [
 export function getInterviewer(id) {
   return INTERVIEWERS.find((i) => i.id === id) ?? INTERVIEWERS[0];
 }
+
+// Each interview type has an appropriate professional interviewer.
+// A mixed interview assigns the interviewer independently for every question.
+const INTERVIEWER_BY_TYPE = {
+  technical: "sarah",
+  behavioral: "daniel",
+  hr: "maya",
+};
+
+export function getInterviewerIdForType(type) {
+  return INTERVIEWER_BY_TYPE[type] ?? "sarah";
+}
+
+export function getInterviewerForQuestion(questionType, interviewType) {
+  return getInterviewer(getInterviewerIdForType(
+    interviewType === "mixed" ? questionType : interviewType
+  ));
+}
