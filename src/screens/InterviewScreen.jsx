@@ -12,7 +12,6 @@ export default function InterviewScreen({
   normalQCount = 1,
   originalTotal = 1,
   roleId,
-  interviewerId,
   interviewType,
   focusAreas = null,
   matchScore = null,
