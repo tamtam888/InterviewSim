@@ -54,9 +54,9 @@ export function useQuestionAudio({ lang, questionText }) {
     synth.speak(utterance);
   }, [lang]);
 
-  const speak = useCallback(async () => {
+  const speak = useCallback(async (overrideText = null) => {
     stopSpeech();
-    const text = questionText?.trim();
+    const text = (overrideText ?? questionText)?.trim();
     if (!text) return;
     const currentId = playIdRef.current;
     setSpeaking(true);
