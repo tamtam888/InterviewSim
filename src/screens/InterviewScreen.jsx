@@ -31,7 +31,7 @@ export default function InterviewScreen({
   const [clarifying, setClarifying] = useState(false);
   const [clarificationError, setClarificationError] = useState("");
   const displayedQuestion = question?.text?.[lang] || question?.text?.en || "";
-  const { canSpeak, speaking, speak, stopSpeech } = useQuestionAudio({ lang, questionText: displayedQuestion });
+  const { canSpeak, speaking, speak, stopSpeech, voiceEngine } = useQuestionAudio({ lang, questionText: displayedQuestion });
   const clarificationCount = useRef(0);
   const [clarificationUsed, setClarificationUsed] = useState(0);
   const clarificationRequest = useRef(null);
@@ -199,7 +199,7 @@ export default function InterviewScreen({
               {speaking ? (lang === "he" ? "עצירת ההשמעה" : "Stop audio") : (lang === "he" ? "השמיעו שאלה" : "Listen to question")}
             </button>
           )}
-          {canSpeak && <span className="voice-unsupported">{lang === "he" ? "הקול נוצר באמצעות AI; אם אינו זמין יושמע קול המכשיר." : "AI-generated voice; device voice is used if unavailable."}</span>}
+          {canSpeak && <span className="voice-unsupported" role="status">{voiceEngine === "ai" ? (lang === "he" ? "מושמע כעת קול AI" : "Playing AI voice") : voiceEngine === "device" ? (lang === "he" ? "מושמע קול הדפדפן — איכות ההגייה עשויה להיות מוגבלת" : "Playing device voice — pronunciation may vary") : (lang === "he" ? "בהשמעה נציג אם הופעל קול AI או קול הדפדפן" : "Playback will identify the voice engine")}</span>}
           <button type="button" className="btn btn-secondary" onClick={clarifyQuestion}
             disabled={clarifying || clarificationUsed >= 2}>
             {clarifying ? <Loader2 size={16} className="spin" /> : <MessageCircleQuestion size={16} />}
